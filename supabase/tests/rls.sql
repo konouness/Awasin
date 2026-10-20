@@ -1,0 +1,95 @@
+\set ON_ERROR_STOP 1
+begin;
+
+insert into public.schools (id, npsn, name, lat, lon, kabupaten) values
+  ('00000000-0000-0000-0000-0000000000a1', 'T0000001', 'Sekolah Uji A', -2.2, 113.9, 'Uji'),
+  ('00000000-0000-0000-0000-0000000000b1', 'T0000002', 'Sekolah Uji B', -2.5, 112.9, 'Uji');
+insert into auth.users (id, email) values
+  ('00000000-0000-0000-0000-00000000aaaa', 'uji-a@awasin.test'),
+  ('00000000-0000-0000-0000-00000000bbbb', 'uji-b@awasin.test'),
+  ('00000000-0000-0000-0000-00000000dddd', 'uji-d@awasin.test');
+insert into public.profiles (id, role, school_id, name) values
+  ('00000000-0000-0000-0000-00000000aaaa', 'sekolah', '00000000-0000-0000-0000-0000000000a1', 'A'),
+  ('00000000-0000-0000-0000-00000000bbbb', 'sekolah', '00000000-0000-0000-0000-0000000000b1', 'B'),
+  ('00000000-0000-0000-0000-00000000dddd', 'dinas', null, 'Dinas');
+insert into public.field_reports (id, school_id, reporter_id, hazard, note) values
+  ('00000000-0000-0000-0000-0000000000f1', '00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-00000000bbbb', 'asap', 'laporan B');
+insert into public.emergencies (id, school_id, hazard, reason, started_by) values
+  ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000a1', 'asap', 'uji', 'otomatis'),
+  ('00000000-0000-0000-0000-0000000000e2', '00000000-0000-0000-0000-0000000000b1', 'asap', 'uji', 'otomatis');
+
+set local role anon;
+do $$ begin
+  perform 1 from public.schools limit 1;
+  perform 1 from public.forecasts limit 1;
+  perform 1 from public.school_status limit 1;
+  perform 1 from public.refresh_runs limit 1;
+  perform 1 from public.tasks limit 1;
+  perform 1 from public.emergencies limit 1;
+  if (select count(*) from public.schools where npsn like 'T000000%') <> 2 then raise exception 'anon cannot read schools'; end if;
+end $$;
+do $$ declare t text; n int; begin
+  foreach t in array array['field_reports','health_checkins','telegram_chats','push_subscriptions','notify_state','profiles'] loop
+    begin
+      execute format('select count(*) from public.%I', t) into n;
+    exception when insufficient_privilege then n := 0;
+    end;
+    if n > 0 then raise exception 'anon can read %', t; end if;
+  end loop;
+end $$;
+reset role;
+
+set local role authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000aaaa","role":"authenticated"}';
+do $$ begin
+  insert into public.field_reports (school_id, reporter_id, hazard, note)
+  values ('00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-00000000aaaa', 'asap', 'laporan A');
+end $$;
+do $$ begin
+  begin
+    insert into public.field_reports (school_id, reporter_id, hazard, note)
+    values ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-00000000aaaa', 'asap', 'palsu');
+    raise exception 'school A inserted a report for school B';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+do $$ begin
+  if exists (select 1 from public.field_reports where school_id <> '00000000-0000-0000-0000-0000000000a1') then
+    raise exception 'school A sees other schools reports';
+  end if;
+  if (select count(*) from public.field_reports) <> 1 then raise exception 'school A should see exactly its 1 report'; end if;
+end $$;
+do $$ declare n int; begin
+  insert into public.tasks (id, school_id, emergency_id, title)
+  values ('00000000-0000-0000-0000-0000000000c1', '00000000-0000-0000-0000-0000000000a1', '00000000-0000-0000-0000-0000000000e1', 'Tugas A');
+  delete from public.tasks where id = '00000000-0000-0000-0000-0000000000c1';
+  get diagnostics n = row_count;
+  if n <> 1 then raise exception 'school A cannot delete its task'; end if;
+  begin
+    insert into public.tasks (school_id, emergency_id, title)
+    values ('00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-0000000000e2', 'Tugas palsu');
+    raise exception 'school A inserted a task for school B';
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+do $$ declare n int; begin
+  update public.emergencies set ended_at = now() where id = '00000000-0000-0000-0000-0000000000e1';
+  get diagnostics n = row_count;
+  if n <> 1 then raise exception 'school A cannot end its emergency'; end if;
+  update public.emergencies set ended_at = now() where id = '00000000-0000-0000-0000-0000000000e2';
+  get diagnostics n = row_count;
+  if n <> 0 then raise exception 'school A ended school B emergency'; end if;
+end $$;
+reset role;
+
+set local role authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000dddd","role":"authenticated"}';
+do $$ begin
+  if (select count(*) from public.field_reports where school_id in ('00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1')) <> 2 then
+    raise exception 'dinas should see reports of all schools';
+  end if;
+end $$;
+reset role;
+
+select 'rls ok';
+rollback;
