@@ -109,5 +109,42 @@ do $$ begin
 end $$;
 reset role;
 
+insert into public.emergencies (school_id, hazard, reason, started_by) values ('00000000-0000-0000-0000-0000000000a1', 'asap', 'uji absen', 'sekolah');
+update public.emergencies set ended_at = now() where school_id = '00000000-0000-0000-0000-0000000000b1';
+
+set local role anon;
+do $$ begin
+  begin
+    perform public.submit_checkin('T0000002', 'Budi', '4A', 'sehat', '{}');
+    raise exception 'checkin accepted without active emergency';
+  exception when others then
+    if sqlerrm not like '%Tidak ada mode darurat aktif%' then raise; end if;
+  end;
+  perform public.submit_checkin('T0000001', 'Budi', '4A', 'sehat', '{}');
+  perform public.submit_checkin('T0000001', 'budi ', '4A', 'sakit', '{batuk}');
+  begin
+    perform public.submit_checkin('T0000001', '', '4A', 'sehat', '{}');
+    raise exception 'empty name accepted';
+  exception when others then
+    if sqlerrm = 'empty name accepted' then raise; end if;
+  end;
+  begin
+    if (select count(*) from public.health_checkins) <> 0 then raise exception 'anon can read health_checkins'; end if;
+  exception when insufficient_privilege then null;
+  end;
+end $$;
+reset role;
+do $$ begin
+  if (select count(*) from public.health_checkins where school_id = '00000000-0000-0000-0000-0000000000a1') <> 1 then
+    raise exception 'same student same day should be one row';
+  end if;
+  if (select status from public.health_checkins where school_id = '00000000-0000-0000-0000-0000000000a1') <> 'sakit' then
+    raise exception 'latest checkin should win';
+  end if;
+  if (select date from public.health_checkins limit 1) <> (now() at time zone 'Asia/Jakarta')::date then
+    raise exception 'checkin date should be the WIB date';
+  end if;
+end $$;
+
 select 'rls ok';
 rollback;

@@ -1,4 +1,5 @@
 import { afterStatus } from '@/notify/after';
+import { announceEmergency } from '@/notify/announce';
 import { realDeps } from '@/pipeline/deps';
 import { refresh } from '@/pipeline/refresh';
 
@@ -11,6 +12,6 @@ export async function POST(req: Request) {
     return Response.json({ error: 'unauthorized' }, { status: 401 });
   }
   const now = new Date();
-  const res = await refresh(realDeps(now, (list) => afterStatus(list)), now);
+  const res = await refresh(realDeps(now, (list) => afterStatus(list, announceEmergency)), now);
   return Response.json(res, { status: res.ok ? 200 : 502 });
 }
