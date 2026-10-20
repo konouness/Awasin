@@ -1,0 +1,14 @@
+import { createClient } from '@supabase/supabase-js';
+const [email, path, ...rest] = process.argv.slice(2);
+const U = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const db = createClient(U, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
+const { data, error } = await db.auth.signInWithPassword({ email, password: process.env.DEMO_PASSWORD });
+if (error) throw error;
+const ref = new URL(U).hostname.split('.')[0];
+const cookie = `sb-${ref}-auth-token=base64-${Buffer.from(JSON.stringify(data.session)).toString('base64url')}`;
+const base = process.env.BASE ?? 'http://localhost:3000';
+const res = await fetch(base + path, { headers: { cookie }, redirect: 'manual', ...(rest[0] ? { method: 'POST', body: rest[0], headers: { cookie, 'content-type': 'application/json' } } : {}) });
+const text = await res.text();
+console.log(res.status, res.headers.get('location') ?? '');
+process.stdout.write(text.replace(/<script[\s\S]*?<\/script>/g, '').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').slice(0, Number(process.env.CHARS ?? 1500)));
+console.log();

@@ -14,6 +14,8 @@ insert into public.profiles (id, role, school_id, name) values
   ('00000000-0000-0000-0000-00000000dddd', 'dinas', null, 'Dinas');
 insert into public.field_reports (id, school_id, reporter_id, hazard, note) values
   ('00000000-0000-0000-0000-0000000000f1', '00000000-0000-0000-0000-0000000000b1', '00000000-0000-0000-0000-00000000bbbb', 'asap', 'laporan B');
+insert into public.forecasts (school_id, hazard, hour, level, score) values
+  ('00000000-0000-0000-0000-0000000000a1', 'asap', '2026-10-20T03:00:00Z', 2, 160);
 insert into public.emergencies (id, school_id, hazard, reason, started_by) values
   ('00000000-0000-0000-0000-0000000000e1', '00000000-0000-0000-0000-0000000000a1', 'asap', 'uji', 'otomatis'),
   ('00000000-0000-0000-0000-0000000000e2', '00000000-0000-0000-0000-0000000000b1', 'asap', 'uji', 'otomatis');
@@ -80,6 +82,11 @@ do $$ declare n int; begin
   get diagnostics n = row_count;
   if n <> 0 then raise exception 'school A ended school B emergency'; end if;
 end $$;
+do $$ begin
+  if (select count(*) from public.dinas_overview((now() at time zone 'Asia/Jakarta')::date)) <> 1 then
+    raise exception 'dinas_overview should return only own school for a school account';
+  end if;
+end $$;
 reset role;
 
 set local role authenticated;
@@ -87,6 +94,17 @@ set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000dddd","r
 do $$ begin
   if (select count(*) from public.field_reports where school_id in ('00000000-0000-0000-0000-0000000000a1','00000000-0000-0000-0000-0000000000b1')) <> 2 then
     raise exception 'dinas should see reports of all schools';
+  end if;
+end $$;
+do $$ begin
+  if (select count(*) from public.dinas_overview((now() at time zone 'Asia/Jakarta')::date)) <> (select count(*) from public.schools) then
+    raise exception 'dinas_overview should return every school for dinas';
+  end if;
+  if (select reports_today from public.dinas_overview((now() at time zone 'Asia/Jakarta')::date) where school_id = '00000000-0000-0000-0000-0000000000b1') <> 1 then
+    raise exception 'dinas_overview should count today report of school B';
+  end if;
+  if (select public.predicted_level_at('00000000-0000-0000-0000-0000000000a1', 'asap', '2026-10-20T03:40:00Z')) <> 2 then
+    raise exception 'predicted_level_at should truncate to the hour';
   end if;
 end $$;
 reset role;
