@@ -8,8 +8,6 @@ const body = Atkinson_Hyperlegible({ subsets: ['latin'], weight: ['400', '700'],
 export const metadata: Metadata = {
   title: 'Awasin',
   description: 'Peringatan dini asap, banjir, dan angin kencang untuk sekolah di Kalimantan Tengah.',
-  manifest: '/manifest.webmanifest',
-  icons: { icon: '/icons/icon-192.png', apple: '/icons/icon-192.png' },
 };
 
 export const viewport: Viewport = { themeColor: '#17221f', width: 'device-width', initialScale: 1 };
