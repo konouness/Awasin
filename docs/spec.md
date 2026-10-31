@@ -15,7 +15,7 @@ masuk normal, tunda jam masuk, pulangkan lebih awal, wajib masker, atau belajar
 daring. Guru dan petugas UKS mengirim laporan lapangan (foto, jarak pandang, tinggi
 genangan, jumlah siswa terdampak) yang dicocokkan dengan prediksi pada dashboard
 dinas. Saat sekolah beralih ke belajar daring, aplikasi mengirim pengumuman lewat
-Telegram, menyediakan papan tugas, dan mencatat absen kesehatan harian siswa.
+Telegram dan mencatat absen kesehatan harian siswa.
 
 ## Modul
 
@@ -25,14 +25,14 @@ Telegram, menyediakan papan tugas, dan mencatat absen kesehatan harian siswa.
   browser; dashboard dinas menandai laporan `cocok` / `tidak_terdeteksi` /
   `tidak_terkonfirmasi` terhadap prediksi.
 - **S7 Mode darurat**: aktif otomatis saat rekomendasi = daring (sekolah bisa
-  mengakhiri), pengumuman Telegram + web push, papan tugas (tautan), absen kesehatan
+  mengakhiri), pengumuman Telegram, absen kesehatan
   harian publik per sekolah yang masuk ke dashboard.
 
 ## Batasan
 
 - Repo `konouness/Awasin` private sampai awarding 22 Nov 2026. Vercel Hobby hanya mem-build push dari akun konouness, jadi push teman setim perlu diikuti push dari akun itu.
 - Rp 0 dan tanpa kartu kredit: Vercel Hobby, Supabase Free, NASA FIRMS (MAP_KEY),
-  Open-Meteo (non-komersial, tanpa key), bot Telegram, web push VAPID.
+  Open-Meteo (non-komersial, tanpa key), bot Telegram.
 - Vercel Hobby cron hanya 1×/hari, jadi refresh per jam memakai pg_cron + pg_net di Supabase.
 - Wilayah prototipe: Kalimantan Tengah, 20–30 sekolah contoh.
 - Tidak ada fitur yang dipotong (keputusan tim 2026-10-20).

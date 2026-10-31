@@ -65,7 +65,7 @@ export default async function SchoolPage({ params }: { params: Promise<{ npsn: s
           <EmergencyPanel schoolId={school.id} npsn={school.npsn} />
         ) : activeEm ? (
           <p className="banner">
-            Sekolah sedang belajar daring. Lihat <a href={`/s/${school.npsn}/tugas`}>papan tugas</a> dan isi <a href={`/s/${school.npsn}/absen`}>absen kesehatan</a>.
+            Sekolah sedang belajar daring. Isi <a href={`/s/${school.npsn}/absen`}>absen kesehatan</a>.
           </p>
         ) : null}
 

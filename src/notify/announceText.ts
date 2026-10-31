@@ -5,7 +5,6 @@ export function announcementText(schoolName: string, npsn: string, hazard: Hazar
   return [
     `📢 ${schoolName}: Belajar daring mulai sekarang.`,
     `Penyebab: ${hazard ? HAZARD_LABEL[hazard] + '. ' : ''}${reason}`,
-    `Tugas: ${appUrl}/s/${npsn}/tugas`,
     `Absen kesehatan harian: ${appUrl}/s/${npsn}/absen`,
   ].join('\n');
 }
