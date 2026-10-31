@@ -22,7 +22,7 @@ export function levelAngin(gustKmh: number, weatherCode: number): Level {
 const ACTIONS: Record<Hazard, [Action, Action, Action, Action]> = {
   asap: ['normal', 'kurangi_luar', 'tunda_masuk', 'daring'],
   banjir: ['normal', 'kurangi_luar', 'pulang_awal', 'daring'],
-  angin: ['normal', 'kurangi_luar', 'tunda_masuk', 'daring'],
+  angin: ['normal', 'kurangi_luar', 'tunda_masuk', 'tunda_masuk'],
 };
 
 export function actionFor(hazard: Hazard, level: Level): Action {

@@ -23,3 +23,9 @@ test('recommend takes the heaviest action', () => {
   expect(recommend({ asap: 3, banjir: 3, angin: 0 })).toEqual({ action: 'daring', hazard: 'asap' });
   expect(recommend({ asap: 0, banjir: 0, angin: 0 })).toEqual({ action: 'normal', hazard: null });
 });
+
+test('wind never asks for daring', () => {
+  expect(actionFor('angin', 2)).toBe('tunda_masuk');
+  expect(actionFor('angin', 3)).toBe('tunda_masuk');
+  expect(recommend({ asap: 0, banjir: 0, angin: 3 })).toEqual({ action: 'tunda_masuk', hazard: 'angin' });
+});
