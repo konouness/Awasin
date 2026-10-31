@@ -6,7 +6,7 @@ import { badgeHtml, jenjangOf } from '@/lib/jenjang';
 import { LEVEL_COLOR } from '@/lib/status';
 import type { Level } from '@/risk/types';
 
-export type MapSchool = { npsn: string; name: string; lat: number; lon: number; level: Level; actionLabel: string };
+export type MapSchool = { npsn: string; name: string; lat: number; lon: number; level: Level; actionLabel: string; href: string };
 
 export const FIRE_COLOR = '#ff3d00';
 const canvas = L.canvas();
@@ -30,7 +30,7 @@ export default function SchoolMap({ schools, fires }: { schools: MapSchool[]; fi
             <br />
             {s.actionLabel}
             <br />
-            <a href={`/sekolah/${s.npsn}`}>Lihat detail sekolah</a>
+            <a href={s.href}>Lihat detail sekolah</a>
           </Popup>
         </Marker>
       ))}

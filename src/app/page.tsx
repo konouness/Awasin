@@ -1,32 +1,38 @@
 import Link from 'next/link';
 import { MapLoader } from '@/components/MapLoader';
+import { ReplayBar } from '@/components/ReplayBar';
 import { Topbar } from '@/components/Topbar';
 import { badgeHtml, JENJANG_LABEL, jenjangOf, type Jenjang } from '@/lib/jenjang';
 import { ACTION_LABEL, LEVEL_COLOR, LEVEL_LABEL } from '@/lib/status';
 import { createClient } from '@/lib/supabase/server';
 import { formatWIB, isStale } from '@/lib/time';
+import { replayDay } from '@/replay/replay';
 import { ACTION_ORDER, type Action, type Hazard, type Level } from '@/risk/types';
 
 export const dynamic = 'force-dynamic';
 
 type Row = { npsn: string; name: string; lat: number; lon: number; kabupaten: string; school_status: { action: Action; levels: Record<Hazard, Level> } | null };
 
-export default async function Home() {
+export default async function Home({ searchParams }: { searchParams: Promise<{ putar?: string }> }) {
+  const snap = replayDay((await searchParams).putar);
+  const q = snap ? `?putar=${snap.day}` : '';
   const db = await createClient();
   const [{ data: schools }, { data: run }, { data: hot }] = await Promise.all([
     db.from('schools').select('npsn, name, lat, lon, kabupaten, school_status(action, levels)'),
     db.from('refresh_runs').select('finished_at').eq('ok', true).order('id', { ascending: false }).limit(1).maybeSingle(),
     db.from('hotspots').select('points').eq('id', 1).maybeSingle(),
   ]);
-  const fires = (hot?.points ?? []) as [number, number][];
+  const fires = snap ? snap.fires : ((hot?.points ?? []) as [number, number][]);
   const rows = ((schools ?? []) as unknown as Row[]).map((s) => {
-    const lv = s.school_status?.levels;
+    const st = snap ? (snap.schools[s.npsn]?.status ?? null) : s.school_status;
+    const lv = st?.levels;
     const level = (lv ? Math.max(lv.asap, lv.banjir, lv.angin) : 0) as Level;
-    const action = s.school_status?.action ?? 'normal';
+    const action = st?.action ?? 'normal';
     return { ...s, level, action, actionLabel: ACTION_LABEL[action] };
   });
   rows.sort((a, b) => ACTION_ORDER.indexOf(b.action) - ACTION_ORDER.indexOf(a.action) || b.level - a.level || a.name.localeCompare(b.name));
-  const stale = isStale(run?.finished_at ?? null, new Date());
+  const updated = snap ? snap.at : run?.finished_at;
+  const stale = !snap && isStale(run?.finished_at ?? null, new Date());
   const counts = ACTION_ORDER.map((a) => [a, rows.filter((r) => r.action === a).length] as const).filter(([, n]) => n > 0);
 
   return (
@@ -34,13 +40,14 @@ export default async function Home() {
       <Topbar />
       <div className="map-layout">
         <div className="map-box">
-          <MapLoader schools={rows.map(({ npsn, name, lat, lon, level, actionLabel }) => ({ npsn, name, lat, lon, level, actionLabel }))} fires={fires} />
+          <MapLoader schools={rows.map(({ npsn, name, lat, lon, level, actionLabel }) => ({ npsn, name, lat, lon, level, actionLabel, href: `/sekolah/${npsn}${q}` }))} fires={fires} />
         </div>
         <aside className="side stack">
+          <ReplayBar active={snap?.day ?? null} base="/" at={snap?.at} />
           <h1>Apa yang dilakukan sekolah hari ini</h1>
           <p className="muted">
             {rows.length} sekolah di Kalimantan Tengah, prakiraan 6 jam ke depan.
-            {run?.finished_at ? ` Diperbarui ${formatWIB(run.finished_at)}.` : ''}
+            {updated ? ` Diperbarui ${formatWIB(updated)}.` : ''}
           </p>
           {stale && (
             <p className="banner" role="status">
@@ -62,7 +69,7 @@ export default async function Home() {
           <ol>
             {rows.map((s) => (
               <li key={s.npsn}>
-                <Link href={`/sekolah/${s.npsn}`}>
+                <Link href={`/sekolah/${s.npsn}${q}`}>
                   <span dangerouslySetInnerHTML={{ __html: badgeHtml(jenjangOf(s.name), LEVEL_COLOR[s.level]) }} />
                   <span>
                     {s.name}
