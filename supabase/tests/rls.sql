@@ -146,5 +146,21 @@ do $$ begin
   end if;
 end $$;
 
+set local role authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000dddd","role":"authenticated"}';
+do $$ begin
+  if (select count(*) from public.health_checkins) <> 0 then raise exception 'dinas can read check-in rows'; end if;
+  if (select sick_checkins from public.dinas_overview((now() at time zone 'Asia/Jakarta')::date) where npsn = 'T0000001') <> 1 then
+    raise exception 'dinas_overview should still count sick check-ins';
+  end if;
+end $$;
+reset role;
+set local role authenticated;
+set local request.jwt.claims = '{"sub":"00000000-0000-0000-0000-00000000aaaa","role":"authenticated"}';
+do $$ begin
+  if (select count(*) from public.health_checkins) <> 1 then raise exception 'school A should read its own check-ins'; end if;
+end $$;
+reset role;
+
 select 'rls ok';
 rollback;
