@@ -7,3 +7,9 @@ export const HAZARD_ADVICE: Record<Hazard, string> = {
 };
 
 export const SCORE_UNIT: Record<Hazard, string> = { asap: 'µg/m³ PM2.5', banjir: 'mm hujan 24 jam', angin: 'km/jam hembusan' };
+
+export const THRESHOLD_SOURCE: Record<Hazard, string> = {
+  asap: 'Ambang: ISPU KLHK (PermenLHK P.14/2020)',
+  banjir: 'Kategori hujan: BMKG',
+  angin: 'Ambang: skala Beaufort',
+};

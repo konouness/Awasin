@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Sparkline } from '@/components/Sparkline';
 import { ReplayBar } from '@/components/ReplayBar';
 import { Topbar } from '@/components/Topbar';
-import { HAZARD_ADVICE, SCORE_UNIT } from '@/lib/advice';
+import { HAZARD_ADVICE, SCORE_UNIT, THRESHOLD_SOURCE } from '@/lib/advice';
 import { ACTION_LABEL, HAZARD_LABEL, LEVEL_COLOR, LEVEL_LABEL } from '@/lib/status';
 import { createClient, getSessionProfile } from '@/lib/supabase/server';
 import { EmergencyPanel } from './EmergencyPanel';
@@ -105,6 +105,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
                 ) : (
                   <p className="small muted">Belum ada prakiraan untuk bencana ini.</p>
                 )}
+                <p className="small muted">{THRESHOLD_SOURCE[h]}</p>
               </div>
             );
           })}
