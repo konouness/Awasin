@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
-import { parseOpenMeteo } from '../../src/sources/openMeteo';
-import { parseFirmsCsv } from '../../src/sources/firms';
+import { openMeteoUrls, parseOpenMeteo } from '../../src/sources/openMeteo';
+import { firmsUrl, parseFirmsCsv } from '../../src/sources/firms';
 const fx = (f: string) => readFileSync(new URL(`../fixtures/${f}`, import.meta.url), 'utf8');
 const forecastFixture = JSON.parse(fx('open-meteo-forecast.json'));
 const airFixture = JSON.parse(fx('open-meteo-air.json'));
@@ -21,3 +21,16 @@ test('parseOpenMeteo accepts a single-location object', () => {
   expect(parseOpenMeteo(forecastFixture[0], airFixture[0], ['a']).get('a')!.length).toBe(72);
 });
 test('parseFirmsCsv skips broken rows', () => { expect(parseFirmsCsv(firmsFixture)).toHaveLength(3); });
+
+test('open-meteo urls switch to archive for a past day', () => {
+  const live = openMeteoUrls([{ lat: -2.2, lon: 113.9 }]);
+  expect(live.forecast).toContain('api.open-meteo.com'); expect(live.forecast).toContain('past_days=1');
+  const past = openMeteoUrls([{ lat: -2.2, lon: 113.9 }], '2026-08-09');
+  expect(past.forecast).toContain('historical-forecast-api.open-meteo.com');
+  expect(past.forecast).toContain('start_date=2026-08-08&end_date=2026-08-10');
+  expect(past.air).toContain('start_date=2026-08-08'); expect(past.air).not.toContain('past_days');
+});
+test('firms url takes the two days before', () => {
+  expect(firmsUrl('K')).toMatch(/\/2$/);
+  expect(firmsUrl('K', '2026-08-09')).toMatch(/\/2\/2026-08-07$/);
+});

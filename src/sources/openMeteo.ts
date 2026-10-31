@@ -35,13 +35,22 @@ async function getJson(url: string): Promise<unknown> {
   return res.json();
 }
 
-export async function fetchOpenMeteo(schools: (Point & { id: string })[]): Promise<Map<string, HourRow[]>> {
+const shift = (day: string, d: number) => new Date(new Date(day + 'T00:00:00Z').getTime() + d * 86400000).toISOString().slice(0, 10);
+
+export function openMeteoUrls(schools: Point[], day?: string): { forecast: string; air: string } {
   const lat = schools.map((s) => s.lat).join(',');
   const lon = schools.map((s) => s.lon).join(',');
-  const common = `latitude=${lat}&longitude=${lon}&past_days=1&forecast_days=2&timezone=GMT`;
-  const [forecast, air] = await Promise.all([
-    getJson(`https://api.open-meteo.com/v1/forecast?${common}&hourly=precipitation,wind_gusts_10m,wind_direction_10m,weather_code`),
-    getJson(`https://air-quality-api.open-meteo.com/v1/air-quality?${common}&hourly=pm2_5`),
-  ]);
+  const range = day ? `start_date=${shift(day, -1)}&end_date=${shift(day, 1)}` : 'past_days=1&forecast_days=2';
+  const common = `latitude=${lat}&longitude=${lon}&${range}&timezone=GMT`;
+  const host = day ? 'historical-forecast-api.open-meteo.com' : 'api.open-meteo.com';
+  return {
+    forecast: `https://${host}/v1/forecast?${common}&hourly=precipitation,wind_gusts_10m,wind_direction_10m,weather_code`,
+    air: `https://air-quality-api.open-meteo.com/v1/air-quality?${common}&hourly=pm2_5`,
+  };
+}
+
+export async function fetchOpenMeteo(schools: (Point & { id: string })[], day?: string): Promise<Map<string, HourRow[]>> {
+  const u = openMeteoUrls(schools, day);
+  const [forecast, air] = await Promise.all([getJson(u.forecast), getJson(u.air)]);
   return parseOpenMeteo(forecast, air, schools.map((s) => s.id));
 }

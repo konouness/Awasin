@@ -16,9 +16,14 @@ export function parseFirmsCsv(csv: string): Point[] {
   return out;
 }
 
-export async function fetchHotspots(): Promise<Point[]> {
-  const url = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${process.env.FIRMS_MAP_KEY}/VIIRS_NOAA21_NRT/108.5,-4.3,119.3,4.5/2`;
-  const res = await fetch(url, { cache: 'no-store' });
+export function firmsUrl(key: string, day?: string): string {
+  const base = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${key}/VIIRS_NOAA21_NRT/108.5,-4.3,119.3,4.5/2`;
+  if (!day) return base;
+  return `${base}/${new Date(new Date(day + 'T00:00:00Z').getTime() - 2 * 86400000).toISOString().slice(0, 10)}`;
+}
+
+export async function fetchHotspots(day?: string): Promise<Point[]> {
+  const res = await fetch(firmsUrl(process.env.FIRMS_MAP_KEY ?? '', day), { cache: 'no-store' });
   if (res.status !== 200) throw new Error(`FIRMS ${res.status}`);
   const text = await res.text();
   if (!text.startsWith('latitude')) throw new Error(`FIRMS: ${text.slice(0, 80)}`);
