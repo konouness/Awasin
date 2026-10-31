@@ -6,11 +6,13 @@ import { createClient, getSessionProfile } from '@/lib/supabase/server';
 import { formatWIB, todayWIB } from '@/lib/time';
 import { MATCH_LABEL, matchReport, type MatchResult } from '@/reports/match';
 import { observedLevel, type ReportInput } from '@/reports/observed';
-import { ACTION_ORDER, HAZARDS, type Action, type Hazard, type Level } from '@/risk/types';
+import { ACTION_ORDER, HAZARDS, type Hazard, type Level } from '@/risk/types';
+import type { Overview } from '@/se/draft';
+import { SeDraft } from './SeDraft';
 
 export const dynamic = 'force-dynamic';
+export const maxDuration = 60;
 
-type Overview = { school_id: string; npsn: string; name: string; kabupaten: string; action: Action; hazard: Hazard | null; levels: Record<Hazard, Level> | null; reports_today: number; sick_reported: number; sick_checkins: number; emergency_active: boolean };
 type Report = ReportInput & { id: string; school_id: string; students_sick: number; note: string | null; photo_path: string | null; created_at: string; schools: { name: string } };
 
 const MATCH_COLOR: Record<MatchResult, string> = { cocok: LEVEL_COLOR[0], tidak_terdeteksi: LEVEL_COLOR[3], tidak_terkonfirmasi: LEVEL_COLOR[1] };
@@ -87,6 +89,8 @@ export default async function DinasPage({ searchParams }: { searchParams: Promis
             </tbody>
           </table>
         </div>
+
+        <SeDraft kabupaten={[...new Set(rows.map((r) => r.kabupaten))].sort((a, b) => a.localeCompare(b))} />
 
         <h2>Laporan lapangan terbaru</h2>
         <nav className="row small" aria-label="Saring laporan">
