@@ -16,7 +16,7 @@ export function SeDraft({ kabupaten }: { kabupaten: string[] }) {
             {kabupaten.map((k) => <option key={k}>{k}</option>)}
           </select>
         </div>
-        <button className="btn" type="button" disabled={pending || !kab} onClick={() => start(async () => setText((await draftSE(kab)).text))}>
+        <button className="btn" type="button" disabled={pending || !kab} onClick={() => start(async () => setText((await draftSE(kab).catch(() => ({ text: 'Draf AI tidak tersedia, coba lagi nanti.' }))).text))}>
           Buat draf surat edaran
         </button>
       </div>

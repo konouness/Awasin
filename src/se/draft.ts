@@ -46,7 +46,7 @@ export async function askGemini(prompt: string, fetchFn: typeof fetch = fetch): 
       method: 'POST',
       headers: { 'content-type': 'application/json', 'x-goog-api-key': key },
       body: JSON.stringify({ contents: [{ role: 'user', parts: [{ text: prompt }] }] }),
-      signal: AbortSignal.timeout(55_000),
+      signal: AbortSignal.timeout(45_000),
     });
     if (res.status !== 200) return null;
     const data = (await res.json()) as Gemini;

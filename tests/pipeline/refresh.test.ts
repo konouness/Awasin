@@ -46,3 +46,9 @@ test('a failing afterStatus is logged but forecasts stay saved', async () => {
   expect(res.ok).toBe(true);
   expect(deps.logRun).toHaveBeenCalledWith(true, 'notifikasi: telegram down');
 });
+test('a failed hotspot save does not block the status refresh', async () => {
+  const deps = fakeDeps({ saveHotspots: () => Promise.reject(new Error('hotspots 413')) });
+  const res = await refresh(deps, NOW);
+  expect(res.ok).toBe(true);
+  expect(deps.saveStatus).toHaveBeenCalledTimes(1);
+});

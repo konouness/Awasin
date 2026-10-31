@@ -5,7 +5,7 @@ import { demoLogin } from './actions';
 export function DemoLogin() {
   const [error, setError] = useState<string | null>(null);
   const [pending, start] = useTransition();
-  const go = (role: string) => start(async () => setError(await demoLogin(role)));
+  const go = (role: string) => start(async () => setError(await demoLogin(role).catch(() => 'Akun demo belum tersedia.')));
   return (
     <div className="stack">
       <button className="btn" type="button" disabled={pending} onClick={() => go('sekolah')}>Masuk sebagai Sekolah</button>

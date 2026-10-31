@@ -2,6 +2,7 @@
 import { revalidatePath } from 'next/cache';
 import { createAdmin } from '@/lib/supabase/admin';
 import { createClient, getSessionProfile } from '@/lib/supabase/server';
+import { isDemoSchool } from '@/lib/demo';
 import { announceEmergency } from '@/notify/announce';
 
 async function ownSchool(npsn: string) {
@@ -17,7 +18,7 @@ export async function startEmergency(npsn: string) {
   const { schoolId } = await ownSchool(npsn);
   const admin = createAdmin();
   const { error } = await admin.from('emergencies').insert({ school_id: schoolId, hazard: null, reason: 'Diaktifkan oleh sekolah', started_by: 'sekolah' });
-  if (!error) await announceEmergency(schoolId).catch(() => {});
+  if (!error && !isDemoSchool(npsn)) await announceEmergency(schoolId).catch(() => {});
   revalidatePath(`/sekolah/${npsn}`);
 }
 
