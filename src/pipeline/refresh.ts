@@ -5,6 +5,7 @@ export type RefreshDeps = {
   loadSchools(): Promise<(Point & { id: string })[]>;
   fetchOpenMeteo(schools: (Point & { id: string })[]): Promise<Map<string, HourRow[]>>;
   fetchHotspots(): Promise<Point[]>;
+  saveHotspots(points: Point[]): Promise<void>;
   saveForecasts(rows: ForecastRow[]): Promise<void>;
   saveStatus(s: SchoolStatus[]): Promise<void>;
   logRun(ok: boolean, error?: string): Promise<void>;
@@ -18,6 +19,7 @@ export async function refresh(deps: RefreshDeps, now: Date): Promise<{ ok: boole
   try {
     const schools = await deps.loadSchools();
     const [hourly, hotspots] = await Promise.all([deps.fetchOpenMeteo(schools), deps.fetchHotspots()]);
+    await deps.saveHotspots(hotspots);
     const rows = buildForecasts(schools, hourly, hotspots, now);
     if (rows.length === 0) throw new Error('Tidak ada data prakiraan');
     await deps.saveForecasts(rows);

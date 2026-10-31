@@ -17,6 +17,10 @@ export function realDeps(startedAt: Date, afterStatus: RefreshDeps['afterStatus'
     },
     fetchOpenMeteo,
     fetchHotspots,
+    async saveHotspots(points) {
+      const rounded = points.map((p) => [Math.round(p.lat * 1e4) / 1e4, Math.round(p.lon * 1e4) / 1e4]);
+      check(await db.from('hotspots').upsert({ id: 1, points: rounded, updated_at: new Date().toISOString() }));
+    },
     async saveForecasts(rows) {
       for (let i = 0; i < rows.length; i += 1000) {
         check(await db.from('forecasts').upsert(rows.slice(i, i + 1000), { onConflict: 'school_id,hazard,hour' }));

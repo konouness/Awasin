@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { MapLoader } from '@/components/MapLoader';
 import { Topbar } from '@/components/Topbar';
+import { badgeHtml, JENJANG_LABEL, jenjangOf, type Jenjang } from '@/lib/jenjang';
 import { ACTION_LABEL, LEVEL_COLOR, LEVEL_LABEL } from '@/lib/status';
 import { createClient } from '@/lib/supabase/server';
 import { formatWIB, isStale } from '@/lib/time';
@@ -12,10 +13,12 @@ type Row = { npsn: string; name: string; lat: number; lon: number; kabupaten: st
 
 export default async function Home() {
   const db = await createClient();
-  const [{ data: schools }, { data: run }] = await Promise.all([
+  const [{ data: schools }, { data: run }, { data: hot }] = await Promise.all([
     db.from('schools').select('npsn, name, lat, lon, kabupaten, school_status(action, levels)'),
     db.from('refresh_runs').select('finished_at').eq('ok', true).order('id', { ascending: false }).limit(1).maybeSingle(),
+    db.from('hotspots').select('points').eq('id', 1).maybeSingle(),
   ]);
+  const fires = (hot?.points ?? []) as [number, number][];
   const rows = ((schools ?? []) as unknown as Row[]).map((s) => {
     const lv = s.school_status?.levels;
     const level = (lv ? Math.max(lv.asap, lv.banjir, lv.angin) : 0) as Level;
@@ -31,7 +34,7 @@ export default async function Home() {
       <Topbar />
       <div className="map-layout">
         <div className="map-box">
-          <MapLoader schools={rows.map(({ npsn, name, lat, lon, level, actionLabel }) => ({ npsn, name, lat, lon, level, actionLabel }))} />
+          <MapLoader schools={rows.map(({ npsn, name, lat, lon, level, actionLabel }) => ({ npsn, name, lat, lon, level, actionLabel }))} fires={fires} />
         </div>
         <aside className="side stack">
           <h1>Apa yang dilakukan sekolah hari ini</h1>
@@ -45,16 +48,22 @@ export default async function Home() {
             </p>
           )}
           <p className="small">{counts.map(([a, n]) => `${n} ${ACTION_LABEL[a].toLowerCase()}`).join(', ')}</p>
-          <div className="legend" aria-label="Arti warna">
+          <div className="legend" aria-label="Arti warna cincin">
             {([0, 1, 2, 3] as Level[]).map((l) => (
               <span key={l} className="lv"><span className="dot" style={{ background: LEVEL_COLOR[l] }} />{LEVEL_LABEL[l]}</span>
+            ))}
+            <span className="lv"><span className="dot fire" />{fires.length} titik api (48 jam)</span>
+          </div>
+          <div className="legend" aria-label="Jenjang sekolah">
+            {(Object.keys(JENJANG_LABEL) as Jenjang[]).map((j) => (
+              <span key={j} className="lv" dangerouslySetInnerHTML={{ __html: badgeHtml(j, 'transparent') + JENJANG_LABEL[j] }} />
             ))}
           </div>
           <ol>
             {rows.map((s) => (
               <li key={s.npsn}>
                 <Link href={`/sekolah/${s.npsn}`}>
-                  <span className="dot" style={{ background: LEVEL_COLOR[s.level], marginTop: 6 }} />
+                  <span dangerouslySetInnerHTML={{ __html: badgeHtml(jenjangOf(s.name), LEVEL_COLOR[s.level]) }} />
                   <span>
                     {s.name}
                     <br />

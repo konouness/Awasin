@@ -80,6 +80,13 @@ p { margin: 0; }
 
 .lv { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
 .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex: none; }
+.dot.fire { background: #ff3d00; box-shadow: 0 0 0 1px #ffd600; }
+.badge {
+  width: 26px; height: 26px; border-radius: 50%; display: inline-grid; place-items: center; flex: none;
+  background: var(--tier); color: #fff; font: 800 9px/1 system-ui, sans-serif; letter-spacing: -0.02em;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 5px var(--ring);
+}
+.badge-icon { background: none; border: 0; display: grid; place-items: center; }
 
 .hazard { padding: 14px 0; border-top: 1px solid var(--line); display: grid; gap: 8px; }
 .hazard header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
@@ -114,7 +121,7 @@ th { font-weight: 700; color: var(--muted); }
 .map-box .leaflet-container { height: 100%; width: 100%; font: inherit; }
 .side { padding: 16px var(--gutter) 40px; background: var(--surface); }
 .side ol { list-style: none; margin: 12px 0 0; padding: 0; }
-.side li a { display: grid; grid-template-columns: 14px 1fr; gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
+.side li a { display: grid; grid-template-columns: 34px 1fr; gap: 10px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); text-decoration: none; }
 .side li .act { font-size: 0.9rem; color: var(--muted); }
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
 .attrib { font-size: 0.8rem; color: var(--muted); }

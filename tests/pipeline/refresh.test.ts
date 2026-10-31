@@ -12,6 +12,7 @@ function fakeDeps(o: Partial<RefreshDeps> = {}) {
     loadSchools: vi.fn(async () => [{ id: 'a', lat: 0, lon: 0 }]),
     fetchOpenMeteo: vi.fn(async () => new Map([['a', hours()]])),
     fetchHotspots: vi.fn(async () => []),
+    saveHotspots: vi.fn(async () => {}),
     saveForecasts: vi.fn(async () => {}),
     saveStatus: vi.fn(async () => {}),
     logRun: vi.fn(async () => {}),
@@ -34,6 +35,7 @@ test('refresh saves forecasts and status then runs afterStatus', async () => {
   expect(res).toEqual({ ok: true, schools: 1 });
   expect(vi.mocked(deps.saveForecasts).mock.calls[0][0]).toHaveLength(72);
   expect(vi.mocked(deps.saveStatus).mock.calls[0][0][0]).toMatchObject({ school_id: 'a', action: 'normal', hazard: null });
+  expect(deps.saveHotspots).toHaveBeenCalledWith([]);
   expect(deps.afterStatus).toHaveBeenCalledTimes(1);
   expect(deps.logRun).toHaveBeenCalledWith(true, undefined);
 });

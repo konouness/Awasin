@@ -36,7 +36,7 @@ Telegram, menyediakan papan tugas, dan mencatat absen kesehatan harian siswa.
 - Vercel Hobby cron hanya 1×/hari, jadi refresh per jam memakai pg_cron + pg_net di Supabase.
 - Wilayah prototipe: Kalimantan Tengah, 20–30 sekolah contoh.
 - Tidak ada fitur yang dipotong (keputusan tim 2026-10-20).
-- Deadline penyisihan: 31 Oktober 2026 23:59 WIB. Tim 3 orang (A backend/data,
+- Deadline penyisihan: 8 November 2026 (diperpanjang dari 31 Oktober 23:59 WIB). Tim 3 orang (A backend/data,
   B frontend, C proposal/video).
 - SDG 3, 4, 11 · Asta Cita 4. Jangan jadikan SDG 13/15 sebagai SDG utama.
 
