@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { openMeteoUrls, parseOpenMeteo } from '../../src/sources/openMeteo';
-import { firmsUrl, parseFirmsCsv } from '../../src/sources/firms';
+import { FIRMS_BBOX, firmsUrl, parseFirmsCsv } from '../../src/sources/firms';
 const fx = (f: string) => readFileSync(new URL(`../fixtures/${f}`, import.meta.url), 'utf8');
 const forecastFixture = JSON.parse(fx('open-meteo-forecast.json'));
 const airFixture = JSON.parse(fx('open-meteo-air.json'));
@@ -33,4 +33,8 @@ test('open-meteo urls switch to archive for a past day', () => {
 test('firms url takes the two days before', () => {
   expect(firmsUrl('K')).toMatch(/\/2$/);
   expect(firmsUrl('K', '2026-08-09')).toMatch(/\/2\/2026-08-07$/);
+});
+test('firms area covers Jawa, Kalimantan and Sulawesi', () => {
+  expect(FIRMS_BBOX).toEqual({ west: 105, south: -9, east: 127.5, north: 6 });
+  expect(firmsUrl('K')).toContain('/VIIRS_NOAA21_NRT/105,-9,127.5,6/2');
 });

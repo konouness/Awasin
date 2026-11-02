@@ -16,8 +16,11 @@ export function parseFirmsCsv(csv: string): Point[] {
   return out;
 }
 
+export const FIRMS_BBOX = { west: 105, south: -9, east: 127.5, north: 6 } as const;
+
 export function firmsUrl(key: string, day?: string): string {
-  const base = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${key}/VIIRS_NOAA21_NRT/108.5,-4.3,119.3,4.5/2`;
+  const { west, south, east, north } = FIRMS_BBOX;
+  const base = `https://firms.modaps.eosdis.nasa.gov/api/area/csv/${key}/VIIRS_NOAA21_NRT/${west},${south},${east},${north}/2`;
   if (!day) return base;
   return `${base}/${new Date(new Date(day + 'T00:00:00Z').getTime() - 2 * 86400000).toISOString().slice(0, 10)}`;
 }
