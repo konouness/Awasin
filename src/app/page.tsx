@@ -11,14 +11,14 @@ import { ACTION_ORDER, type Action, type Hazard, type Level } from '@/risk/types
 
 export const dynamic = 'force-dynamic';
 
-type Row = { npsn: string; name: string; lat: number; lon: number; kabupaten: string; school_status: { action: Action; levels: Record<Hazard, Level> } | null };
+type Row = { npsn: string; name: string; lat: number; lon: number; kabupaten: string; provinsi: string; school_status: { action: Action; levels: Record<Hazard, Level> } | null };
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ putar?: string }> }) {
   const snap = replayDay((await searchParams).putar);
   const q = snap ? `?putar=${snap.day}` : '';
   const db = await createClient();
   const [{ data: schools }, { data: run }, { data: hot }] = await Promise.all([
-    db.from('schools').select('npsn, name, lat, lon, kabupaten, school_status(action, levels)'),
+    db.from('schools').select('npsn, name, lat, lon, kabupaten, provinsi, school_status(action, levels)'),
     db.from('refresh_runs').select('finished_at').eq('ok', true).order('id', { ascending: false }).limit(1).maybeSingle(),
     db.from('hotspots').select('points').eq('id', 1).maybeSingle(),
   ]);
@@ -46,7 +46,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
           <ReplayBar active={snap?.day ?? null} base="/" at={snap?.at} />
           <h1>Apa yang dilakukan sekolah hari ini</h1>
           <p className="muted">
-            {rows.length} sekolah di Kalimantan Tengah, prakiraan 6 jam ke depan.
+            {rows.length} sekolah di {new Set(rows.map((r) => r.provinsi)).size} provinsi, prakiraan 6 jam ke depan.
             {updated ? ` Diperbarui ${formatWIB(updated)}.` : ''}
           </p>
           {stale && (

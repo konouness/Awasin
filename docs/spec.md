@@ -41,7 +41,7 @@ Telegram dan mencatat absen kesehatan harian siswa.
 - Rp 0 dan tanpa kartu kredit: Vercel Hobby, Supabase Free, NASA FIRMS (MAP_KEY),
   Open-Meteo (non-komersial, tanpa key), bot Telegram, Gemini API tier gratis.
 - Vercel Hobby cron hanya 1×/hari, jadi refresh per jam memakai pg_cron + pg_net di Supabase.
-- Wilayah prototipe: Kalimantan Tengah, 20–30 sekolah contoh.
+- Wilayah prototipe: 17 provinsi di Kalimantan, Jawa, dan Sulawesi, 73 sekolah contoh. Back-test tetap 25 sekolah Kalteng.
 - Keputusan 2026-10-31 (menggantikan "tidak ada fitur yang dipotong" 2026-10-20): papan
   tugas dan web push dipotong, angin dibatasi di "tunda jam masuk". Kedua kolom sakit dan
   semua lencana jenjang tetap. Cek foto dengan Gemini dan tombol WhatsApp tidak dibuat.

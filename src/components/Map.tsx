@@ -3,6 +3,7 @@ import 'leaflet/dist/leaflet.css';
 import L from 'leaflet';
 import { CircleMarker, MapContainer, Marker, Popup, TileLayer } from 'react-leaflet';
 import { badgeHtml, jenjangOf } from '@/lib/jenjang';
+import { mapView } from '@/lib/mapView';
 import { LEVEL_COLOR } from '@/lib/status';
 import type { Level } from '@/risk/types';
 
@@ -14,7 +15,7 @@ const icon = (s: MapSchool) => L.divIcon({ html: badgeHtml(jenjangOf(s.name), LE
 
 export default function SchoolMap({ schools, fires }: { schools: MapSchool[]; fires: [number, number][] }) {
   return (
-    <MapContainer center={[-1.9, 113.4]} zoom={7} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
+    <MapContainer {...mapView(schools)} boundsOptions={{ padding: [24, 24] }} scrollWheelZoom style={{ height: '100%', width: '100%' }}>
       <TileLayer
         url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors · Weather data by <a href="https://open-meteo.com/">Open-Meteo.com</a> · Fire data: NASA FIRMS'

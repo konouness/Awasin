@@ -1,7 +1,7 @@
 # Awasin
 
 Awasin tells each school what to do today when haze, extreme rain or strong wind threatens: masuk normal, kurangi kegiatan luar, tunda jam masuk, pulang lebih awal, or belajar daring.
-It turns satellite fire data, air quality and weather forecasts into a status per school, matches teachers' field reports against it, and runs an emergency mode (Telegram announcement and daily health check-in). Prototype region: 25 schools in Kalimantan Tengah. ADIKARA 2026, Inovasi Software.
+It turns satellite fire data, air quality and weather forecasts into a status per school, matches teachers' field reports against it, and runs an emergency mode (Telegram announcement and daily health check-in). Prototype region: 73 schools in 17 provinces across Kalimantan, Jawa, and Sulawesi; the back-test uses the 25 Kalimantan Tengah schools. ADIKARA 2026, Inovasi Software.
 
 ## Setup
 
@@ -16,7 +16,7 @@ It turns satellite fire data, air quality and weather forecasts into a status pe
    - `DEMO_LOGIN=1` turns on the one-click demo login on `/login`. Leave it empty outside the judging window.
    - `SUPABASE_DB_URL` (optional; without it the DB test runs through the Supabase CLI)
 3. Link and migrate: `npx supabase link --project-ref <ref>` then `npx supabase db push`.
-4. Seed the 25 schools and demo accounts (the password never goes in git):
+4. Seed the 73 schools and demo accounts (the password never goes in git):
    `psql "$SUPABASE_DB_URL" -c "set app.demo_password = '$DEMO_PASSWORD'" -f supabase/seed.sql`
 5. In the Supabase SQL editor, store the two secrets the hourly pg_cron job reads:
    `select vault.create_secret('<app url>', 'app_url'); select vault.create_secret('<CRON_SECRET>', 'cron_secret');`
@@ -34,7 +34,7 @@ It turns satellite fire data, air quality and weather forecasts into a status pe
 
 With `DEMO_LOGIN=1`, `/login` shows "Masuk sebagai Sekolah" and "Masuk sebagai Dinas Pendidikan". No typing needed.
 While it is on, anyone with the link can enter both accounts, including the Dinas report list. The demo school never sends Telegram announcements when its mode daring is switched on by hand.
-Behind the buttons: `demo+30202502@awasin.id` (SD Negeri 1 Jaar) and `dinas@awasin.id`. Each of the 25 schools also has `demo+<npsn>@awasin.id`. The password is in the proposal, not in this repo.
+Behind the buttons: `demo+30202502@awasin.id` (SD Negeri 1 Jaar) and `dinas@awasin.id`. Each of the 73 schools also has `demo+<npsn>@awasin.id`. The password is in the proposal, not in this repo.
 
 ## Data
 
