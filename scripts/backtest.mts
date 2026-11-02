@@ -4,7 +4,7 @@ import { snapshotAt } from '../src/replay/snapshot';
 import { openMeteoUrls } from '../src/sources/openMeteo';
 
 const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, (process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!, { auth: { persistSession: false } });
-const { data: schools, error } = await db.from('schools').select('id, npsn, lat, lon').order('npsn');
+const { data: schools, error } = await db.from('schools').select('id, npsn, lat, lon').eq('provinsi', 'Kalimantan Tengah').order('npsn');
 if (error || !schools) throw new Error(error?.message ?? 'no schools');
 
 const ACTIONS = ['normal', 'kurangi_luar', 'tunda_masuk', 'pulang_awal', 'daring'] as const;
