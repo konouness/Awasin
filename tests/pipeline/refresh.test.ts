@@ -52,3 +52,10 @@ test('a failed hotspot save does not block the status refresh', async () => {
   expect(res.ok).toBe(true);
   expect(deps.saveStatus).toHaveBeenCalledTimes(1);
 });
+test('refresh saves only hotspots near a school for the live map', async () => {
+  const near = { lat: 0.5, lon: 0.5 };
+  const far = { lat: 5, lon: 5 };
+  const deps = fakeDeps({ fetchHotspots: vi.fn(async () => [near, far]) });
+  await refresh(deps, NOW);
+  expect(deps.saveHotspots).toHaveBeenCalledWith([near]);
+});
