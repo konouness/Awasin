@@ -1,9 +1,14 @@
 import { buildForecasts, statusFrom, type SchoolStatus } from '@/pipeline/buildForecasts';
+import { distanceKm } from '@/risk/geo';
 import type { ForecastRow, Point } from '@/risk/types';
 import { fetchHotspots } from '@/sources/firms';
 import { fetchOpenMeteo } from '@/sources/openMeteo';
 
 export type Snapshot = { day: string; at: string; fires: [number, number][]; schools: Record<string, { status: SchoolStatus; rows: ForecastRow[] }> };
+
+export function firesNear(fires: Point[], schools: Point[], km: number): Point[] {
+  return fires.filter((f) => schools.some((s) => distanceKm(f, s) <= km));
+}
 
 export async function snapshotAt(schools: (Point & { id: string; npsn: string })[], day: string): Promise<Snapshot> {
   const now = new Date(`${day}T06:00:00+07:00`);
@@ -17,7 +22,7 @@ export async function snapshotAt(schools: (Point & { id: string; npsn: string })
   return {
     day,
     at: now.toISOString(),
-    fires: hotspots.map((p) => [Math.round(p.lat * 1e4) / 1e4, Math.round(p.lon * 1e4) / 1e4]),
+    fires: firesNear(hotspots, schools, 100).map((p) => [Math.round(p.lat * 1e4) / 1e4, Math.round(p.lon * 1e4) / 1e4]),
     schools: out,
   };
 }

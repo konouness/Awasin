@@ -16,10 +16,6 @@ for (const day of REPLAY_DAYS) {
   out[day] = s;
   await new Promise((r) => setTimeout(r, 2000));
 }
-let json = JSON.stringify(out);
-if (json.length > 1_000_000) {
-  for (const s of Object.values(out)) s.fires = s.fires.filter(([lat, lon]) => lon >= 110.5 && lon <= 116 && lat >= -3.6 && lat <= 0.8);
-  json = JSON.stringify(out);
-}
+const json = JSON.stringify(out);
 writeFileSync(new URL('../src/replay/data.json', import.meta.url), json);
 console.log('data.json', Math.round(json.length / 1024), 'KB');
