@@ -41,5 +41,5 @@ test('statusFrom uses max of next 6 hours only', () => {
   }
   const s = statusFrom(rowsWithPeakAtHour7, 'a', NOW);
   expect(s.levels.asap).toBe(1);
-  expect(s.action).toBe('kurangi_luar');
+  expect(s.action).toBe('tunda_masuk');
 });

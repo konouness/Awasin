@@ -16,10 +16,10 @@ Sumber: Peraturan Menteri LHK Nomor P.14/MENLHK/SETJEN/KUM.1/7/2020 tentang Inde
 
 Angka ambang Awasin cocok dengan batas kategori ISPU.
 
-Perbedaan yang belum diputuskan:
+Catatan:
 
 1. ISPU memakai rata-rata 24 jam ("Data pengukuran selama 24 jam secara terus-menerus"). `levelAsap` memakai nilai per jam dari Open-Meteo. Nilai per jam lebih cepat naik dan turun.
-2. SE Mendikdasmen Nomor 20 Tahun 2026 (pemberitaan 2 September 2026) mengarahkan pembelajaran sepenuhnya jarak jauh saat ISPU di atas 200, dan membatasi tatap muka saat ISPU 101–200. Awasin baru menyarankan daring di level 3 (ISPU di atas 300). Jadi Awasin lebih longgar daripada SE.
+2. Diputuskan 1 November 2026: tindakan asap mengikuti SE Mendikdasmen Nomor 20 Tahun 2026 (pemberitaan 2 September 2026). Level 1 (ISPU 101–200) = tunda jam masuk (tatap muka terbatas), level 2 dan 3 (ISPU di atas 200) = belajar daring.
 
 Sumber SE:
 - InfoPublik, "12.874 Sekolah Terdampak Asap, Kemendikdasmen Atur Pembelajaran", 2 September 2026. https://infopublik.id/kategori/bencana/987097/12-874-sekolah-terdampak-asap-kemendikdasmen-atur-pembelajaran

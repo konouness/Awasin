@@ -15,7 +15,7 @@ test('angin gust + thunderstorm floor', () => {
   expect(levelAngin(10, 95)).toBe(1); expect(levelAngin(10, 99)).toBe(2); expect(levelAngin(70, 95)).toBe(2);
 });
 test('actions per hazard', () => {
-  expect(actionFor('banjir', 2)).toBe('pulang_awal'); expect(actionFor('asap', 2)).toBe('tunda_masuk');
+  expect(actionFor('banjir', 2)).toBe('pulang_awal'); expect(actionFor('asap', 1)).toBe('tunda_masuk'); expect(actionFor('asap', 2)).toBe('daring');
   expect(actionFor('angin', 0)).toBe('normal');
 });
 test('recommend takes the heaviest action', () => {

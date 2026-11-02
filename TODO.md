@@ -1,8 +1,8 @@
 # Awasin TODO
 
-> **Where we left off (1 Nov 2026):** Plan `docs/superpowers/plans/2026-10-31-awasin-finish.md` is built and committed locally on `main` (not pushed). Waiting on you: approve the SE citation for the back-test chart (`docs/backtest/README.md`), decide the ISPU averaging and SE 20/2026 strictness question (`docs/sources.md`), add `GEMINI_API_KEY` and check `DEMO_PASSWORD` in Vercel, then push from konouness. The "571.338 murid, 11 Agustus" number has no source yet; do not use it.
+> **Where we left off (2 Nov 2026):** Plan `docs/superpowers/plans/2026-10-31-awasin-finish.md` is built and committed locally on `main` (not pushed), except the SE 20/2026 rule change (`score.ts`, its tests, back-test, replay data, `sources.md`), which is still uncommitted. Waiting on you: add `GEMINI_API_KEY` and check `DEMO_PASSWORD` in Vercel, then push from konouness. The "571.338 murid, 11 Agustus" number has no source yet; do not use it.
 
-Deadline penyisihan: **8 Nov 2026** (extended from 31 Oct, announced 31 Oct; confirm the exact time on the ADIKARA website). The dates below are the original ones and may shift too. Judging: 1–9 Nov. Finalists: 11 Nov. Final: 19 Nov. Awarding: 22 Nov.
+Submit by: **8 Nov 2026**. Finalists: 11 Nov. Final: 19 Nov. Awarding: 22 Nov.
 
 Owner tags: **[Claude]** builds or researches it, **[You]** decides, uses your accounts, or does it in the real world, **[Both]** Claude prepares, you finish or approve.
 
@@ -29,7 +29,7 @@ Judging is in rainy season, so the live map will likely show every school as "Ma
 Shows the prediction against a real event: "Awasin would have said tunda masuk on day X, the SE came on day Y."
 
 - [x] **[Claude]** Run the scoring over the replay period and produce the chart (PNG) plus the key numbers.
-- [ ] **[Both]** Find the real SE or closure date for that event from a news source (2021 or newer). Claude found two (Barito Selatan PJJ 20 Aug, SE Gubernur 31 Aug) in `docs/backtest/README.md`; you approve before they go on the chart.
+- [x] **[Both]** (approved 1 Nov, on the chart) Find the real SE or closure date for that event from a news source (2021 or newer). Claude found two (Barito Selatan PJJ 20 Aug, SE Gubernur 31 Aug) in `docs/backtest/README.md`; you approve before they go on the chart.
 - [ ] **[You]** Put the chart in the proposal and the video.
 
 ## 3. Threshold sources
@@ -38,7 +38,7 @@ Shows the prediction against a real event: "Awasin would have said tunda masuk o
 - [x] **[Claude]** Verify the rain cutoffs (50 / 100 / 150 mm per day) against BMKG's rain categories.
 - [x] **[Claude]** Show "Ambang: ISPU KLHK" and "Kategori hujan: BMKG" on the school page.
 - [x] **[Both]** Do not cite the 2015 Kemendikbud SE (older than the 2020 source floor). Look for the updated 2026 Kemendikdasmen SE. If only the 2015 one exists, ask before using it. Found: SE Mendikdasmen 20/2026 (see `docs/sources.md`).
-- [ ] **[You]** Decide: ISPU uses a 24-hour average but Awasin scores hourly values, and SE 20/2026 orders full PJJ at ISPU above 200 while Awasin says daring only above 300. `score.ts` is unchanged until you choose.
+- [x] **[You]** Decided 1 Nov: follow SE 20/2026 (daring above ISPU 200). Was: ISPU uses a 24-hour average but Awasin scores hourly values, and SE 20/2026 orders full PJJ at ISPU above 200 while Awasin says daring only above 300. `score.ts` is unchanged until you choose.
 
 ## 4. Cuts (after the team OK)
 
@@ -70,11 +70,42 @@ Shows the prediction against a real event: "Awasin would have said tunda masuk o
 - [x] **[Claude]** Add a button that sends the day's totals (no personal data) to Gemini and returns a formal SE draft per kabupaten.
 - [x] **[Claude]** Label it "Draf AI, periksa sebelum ditandatangani".
 
+## 9. Multi-provinsi and a sharper story (decision 1 Nov, scope changed 2 Nov)
+
+The prototype grows to all of Kalimantan, Jawa, and Sulawesi (17 provinces, 73 schools). Sumatra is not in the prototype. National coverage and ASEAN go in the proposal as the roadmap only. The back-test stays 25 Kalteng schools.
+
+### Code
+- [ ] **[Claude]** Run `docs/superpowers/plans/2026-11-01-awasin-multi-provinsi.md` (FIRMS area, `provinsi` column, 48 real Dapodik schools, map fits schools, replay re-bake).
+- [ ] **[You]** OK the production `db push` + seed in Task 4 of that plan, then push from konouness.
+
+### Proposal
+- [ ] **[Claude]** New section "Skalabilitas" (BAB 6, after 6.3 Biaya operasional):
+  - Phase 1, now: Kalimantan, Jawa, Sulawesi (17 provinces, 73 schools), Rp 0.
+  - Phase 2, national: a Dapodik import plus scoring per grid cell rather than per school, so cost grows with area rather than school count. Name the paid Open-Meteo plan as the only new cost.
+  - Phase 3, ASEAN: each country's index and school rule plugged into the same engine. The ASEAN Agreement on Transboundary Haze Pollution is the reason.
+
+  Sources must be 2021 or newer.
+- [ ] **[Claude]** Table "Kenapa bukan ISPUNet / IQAir?" (BAB 1.3 or 5):
+  - SE 20/2026 decides by daily ISPU for a whole kabupaten. Awasin decides per school.
+  - Those apps show the air now. Awasin forecasts 6 hours ahead.
+  - They give a number. Awasin gives a decision that follows the rules.
+  - Third-party apps show AQI, not ISPU.
+- [ ] **[Claude]** Reframe field reports + health check-in as the record schools are already asked to keep: ISPU checks, learning mode, health of students and staff. Source: Pontianak, InfoPublik Sept 2026.
+- [ ] **[Claude]** Put haze first everywhere. Flood: one paragraph. Wind: one line under "dapat diperluas". AI SE draft: one short paragraph, not a headline feature.
+- [ ] **[Claude]** Update every "25 sekolah" / "Kalimantan Tengah" scope line (abstract, 3.1, 6.5, BAB 7). Keep "25 sekolah" only for the back-test in 6.4.
+- [ ] **[Claude]** Back-test: add one sentence on why the first "daring" calls came on 6 Aug (ISPU above 200 at those schools that day, from `backtest.csv`), before a judge asks.
+- [ ] **[You]** Retake the map screenshot (BAB 7.1) after the re-bake, showing Kalimantan, Jawa, and Sulawesi.
+- [ ] **[You]** Rewrite the new sections in your own words before submitting.
+
+### Video
+- [ ] **[You]** Record from `../Proposal/TUTORIAL_VIDEO_DEMO.md` (updated 2 Nov for Kalimantan, Jawa, Sulawesi).
+
 ---
 
 ## Gaps found (not done yet)
 
 ### Code and deploy
+- [x] **[Claude]** Commit the SE 20/2026 rule change (`score.ts`, its tests, `docs/backtest/*`, `docs/sources.md`, `src/replay/data.json`) as its own commit. It is Task 0 of the multi-provinsi plan. Production keeps the old rule until it is pushed.
 - [ ] **[Both]** Commit the uncommitted hotspot-map work (committed and its migration applied; the push is still yours) (`Map.tsx`, `MapLoader.tsx`, `page.tsx`, `globals.css`, `pipeline/deps.ts`, `pipeline/refresh.ts`, its test). Push from the **konouness** account so Vercel builds it.
 - [x] **[Claude]** README is only a title. Write setup steps (env, `db push`, seed, Vault secrets, set-webhook), data attribution, and the demo accounts for judges. Put no password in git.
 - [x] **[Claude]** Update `docs/spec.md` and the plan to match the cuts, Gemini, and replay. Tick the plan steps that are already done (Tasks 1–9).
@@ -90,7 +121,10 @@ Shows the prediction against a real event: "Awasin would have said tunda masuk o
 - [ ] **[You]** Check the ADIKARA website for the Inovasi submission rules the guidebook leaves out: video length and file name, and how to submit the product (link, repo access). The repo stays private until 22 Nov.
 
 ### Proposal (owner C)
-- [ ] Opening numbers: 3.524 sekolah, 571.338 murid PJJ karena asap (11 Agustus 2026). **No source found for these (checked 1 Nov); find one or drop them.** Kalteng's province-wide PJJ started 31 Aug (SE Gubernur).
+- [ ] **[You]** Fill the `[EMAIL KETUA]` (cover) and `[TAUTAN VIDEO]` (Tabel 11) placeholders, then `sh build/ekspor.sh`.
+- [ ] **[You]** Change the title and every scope line from "Kalimantan Tengah" to Kalimantan, Jawa, Sulawesi (part of #9).
+- [x] Drafted 1 Nov: `../Proposal/PENYISIHAN_PROPOSAL_ADIKARA2026_INOVASI_SOFTWARE_TAKHUNTER.pdf` (26 pages, 1.1 MB), built by `../Proposal/build/ekspor.sh`. Still open: team lead email and video link placeholders, rewrite in your own words, retake the Dinas screenshot after the push.
+- [x] Dropped 1 Nov. Opening numbers: 3.524 sekolah, 571.338 murid PJJ karena asap (11 Agustus 2026). **No source found for these (checked 1 Nov); find one or drop them.** Kalteng's province-wide PJJ started 31 Aug (SE Gubernur).
 - [ ] Repeat the three lines: "BMKG memberi tahu cuacanya, Awasin memberi tahu tindakannya" · "Melengkapi data BMKG, KLHK, BNPB" · "Aturan yang memutuskan, AI yang memeriksa, manusia yang menandatangani".
 - [ ] Add the back-test chart, a Rp 0 running-cost table, and the threshold sources.
 - [ ] Format: max 30 pages in total, A4, margins 4/3/3/3 cm, Times New Roman 12, justified, Harvard references, cover with team info, university, and team lead email, Software Development structure.
@@ -103,6 +137,15 @@ Shows the prediction against a real event: "Awasin would have said tunda masuk o
 - [ ] Tell one story, not a feature tour: 05.30 haze, principal sees "Tunda jam masuk"; teacher report with photo; Dinas dashboard and the AI surat edaran draft; end on the back-test chart.
 - [ ] Record in replay mode so every screen shows real data.
 - [ ] Keep it under 3 minutes unless the website says otherwise. MP4, 720p or higher.
+
+### Team (Alfi and Fino)
+
+Small tasks, but each one is real and their own. About an hour each before submitting.
+
+- [ ] **Alfi:** run the phone end-to-end check on production (the checklist under "Before submitting"), and join the Telegram bot and screen-record the alert for the video.
+- [ ] **Fino:** check the proposal format (A4, margins 4/3/3/3, Times New Roman 12, justified, max 30 pages, Harvard references), and narrate the 0:00–0:35 part of the video (team intro and problem).
+- [ ] **Both:** read the final proposal and OK what is written under their names before you submit.
+- [ ] **Both (finalists only):** be able to explain how one recommendation is calculated (threshold → level → action).
 
 ### Final round prep (after 11 Nov, if you are a finalist)
 - [ ] **[Both]** Slides for 7 minutes of presentation and demo.
