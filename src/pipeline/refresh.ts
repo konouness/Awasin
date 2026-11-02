@@ -1,5 +1,4 @@
 import type { ForecastRow, HourRow, Point } from '@/risk/types';
-import { firesNear } from '@/replay/snapshot';
 import { buildForecasts, statusFrom, type SchoolStatus } from './buildForecasts';
 
 export type RefreshDeps = {
@@ -20,7 +19,7 @@ export async function refresh(deps: RefreshDeps, now: Date): Promise<{ ok: boole
   try {
     const schools = await deps.loadSchools();
     const [hourly, hotspots] = await Promise.all([deps.fetchOpenMeteo(schools), deps.fetchHotspots()]);
-    await deps.saveHotspots(firesNear(hotspots, schools, 100)).catch(() => {});
+    await deps.saveHotspots(hotspots).catch(() => {});
     const rows = buildForecasts(schools, hourly, hotspots, now);
     if (rows.length === 0) throw new Error('Tidak ada data prakiraan');
     await deps.saveForecasts(rows);
