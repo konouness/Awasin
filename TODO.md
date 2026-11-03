@@ -1,6 +1,6 @@
 # Awasin TODO
 
-> **Where we left off (2 Nov 2026):** Plan `docs/superpowers/plans/2026-10-31-awasin-finish.md` is built and committed locally on `main` (not pushed), except the SE 20/2026 rule change (`score.ts`, its tests, back-test, replay data, `sources.md`), which is still uncommitted. Waiting on you: add `GEMINI_API_KEY` and check `DEMO_PASSWORD` in Vercel, then push from konouness. The "571.338 murid, 11 Agustus" number has no source yet; do not use it.
+> **Where we left off (3 Nov 2026):** The multi-provinsi plan is built, applied to production (migration + seed), re-baked with every FIRMS fire (no distance limit; 9 Aug: 5.992 titik api), and pushed to `main`. Vercel has `GEMINI_API_KEY`, `DEMO_PASSWORD`, and `DEMO_LOGIN=1`. Waiting on you: retake the BAB 7.1 map screenshot, fill the proposal placeholders, and record the video. The proposal is at the 30-page limit. The "571.338 murid, 11 Agustus" number has no source; do not use it.
 
 Submit by: **8 Nov 2026**. Finalists: 11 Nov. Final: 19 Nov. Awarding: 22 Nov.
 
@@ -30,7 +30,7 @@ Shows the prediction against a real event: "Awasin would have said tunda masuk o
 
 - [x] **[Claude]** Run the scoring over the replay period and produce the chart (PNG) plus the key numbers.
 - [x] **[Both]** (approved 1 Nov, on the chart) Find the real SE or closure date for that event from a news source (2021 or newer). Claude found two (Barito Selatan PJJ 20 Aug, SE Gubernur 31 Aug) in `docs/backtest/README.md`; you approve before they go on the chart.
-- [ ] **[You]** Put the chart in the proposal and the video.
+- [ ] **[You]** Put the chart in the video. (Already in the proposal, Gambar 5.)
 
 ## 3. Threshold sources
 
@@ -75,30 +75,30 @@ Shows the prediction against a real event: "Awasin would have said tunda masuk o
 The prototype grows to all of Kalimantan, Jawa, and Sulawesi (17 provinces, 73 schools). Sumatra is not in the prototype. National coverage and ASEAN go in the proposal as the roadmap only. The back-test stays 25 Kalteng schools.
 
 ### Code
-- [ ] **[Claude]** Run `docs/superpowers/plans/2026-11-01-awasin-multi-provinsi.md` (FIRMS area, `provinsi` column, 48 real Dapodik schools, map fits schools, replay re-bake).
-- [ ] **[You]** OK the production `db push` + seed in Task 4 of that plan, then push from konouness.
+- [x] **[Claude]** (done 2 Nov; replay 9 Aug: 73 sekolah, 29 normal / 6 kurangi luar / 30 tunda / 8 daring; Kalteng unchanged at 8 / 12 / 5) Run `docs/superpowers/plans/2026-11-01-awasin-multi-provinsi.md` (FIRMS area, `provinsi` column, 48 real Dapodik schools, map fits schools, replay re-bake).
+- [x] **[You]** (db push + seed done 2 Nov: 73 schools, 17 provinces; pushed 3 Nov) OK the production `db push` + seed in Task 4 of that plan, then push from konouness.
 
 ### Proposal
-- [ ] **[Claude]** New section "Skalabilitas" (BAB 6, after 6.3 Biaya operasional):
+- [x] **[Claude]** (done 2 Nov, BAB 6.4 + Tabel 11) New section "Skalabilitas" (BAB 6, after 6.3 Biaya operasional):
   - Phase 1, now: Kalimantan, Jawa, Sulawesi (17 provinces, 73 schools), Rp 0.
   - Phase 2, national: a Dapodik import plus scoring per grid cell rather than per school, so cost grows with area rather than school count. Name the paid Open-Meteo plan as the only new cost.
   - Phase 3, ASEAN: each country's index and school rule plugged into the same engine. The ASEAN Agreement on Transboundary Haze Pollution is the reason.
 
   Sources must be 2021 or newer.
-- [ ] **[Claude]** Table "Kenapa bukan ISPUNet / IQAir?" (BAB 1.3 or 5):
+- [x] **[Claude]** (done 2 Nov, Tabel 1 in 1.3) Table "Kenapa bukan ISPUNet / IQAir?" (BAB 1.3 or 5):
   - SE 20/2026 decides by daily ISPU for a whole kabupaten. Awasin decides per school.
   - Those apps show the air now. Awasin forecasts 6 hours ahead.
   - They give a number. Awasin gives a decision that follows the rules.
   - Third-party apps show AQI, not ISPU.
-- [ ] **[Claude]** Reframe field reports + health check-in as the record schools are already asked to keep: ISPU checks, learning mode, health of students and staff. Source: Pontianak, InfoPublik Sept 2026.
-- [ ] **[Claude]** Put haze first everywhere. Flood: one paragraph. Wind: one line under "dapat diperluas". AI SE draft: one short paragraph, not a headline feature.
-- [ ] **[Claude]** Update every "25 sekolah" / "Kalimantan Tengah" scope line (abstract, 3.1, 6.5, BAB 7). Keep "25 sekolah" only for the back-test in 6.4.
-- [ ] **[Claude]** Back-test: add one sentence on why the first "daring" calls came on 6 Aug (ISPU above 200 at those schools that day, from `backtest.csv`), before a judge asks.
+- [x] **[Claude]** (done 2 Nov, 1.2 + 6.2; source used: detikKalimantan + pontianak.go.id, 27 Sep 2026, Disdikbud edaran B/400.7.15.5/1166/DISDIKBUD/2026) Reframe field reports + health check-in as the record schools are already asked to keep: ISPU checks, learning mode, health of students and staff. Source: Pontianak, InfoPublik Sept 2026.
+- [x] **[Claude]** (done 2 Nov) Put haze first everywhere. Flood: one paragraph. Wind: one line under "dapat diperluas". AI SE draft: one short paragraph, not a headline feature.
+- [x] **[Claude]** (done 2 Nov; back-test is now 6.5) Update every "25 sekolah" / "Kalimantan Tengah" scope line (abstract, 3.1, 6.5, BAB 7). Keep "25 sekolah" only for the back-test in 6.4.
+- [x] **[Claude]** (done 2 Nov) Back-test: add one sentence on why the first "daring" calls came on 6 Aug. **Correction:** it was not ISPU above 200. Peak PM2.5 was 67.3 / 61.2 µg/m³ (ISPU 101–200) at SDN 1 Damparan and SDN 1 Mengkatip; the 10+ upwind fires rule lifted them to daring. The proposal says so.
 - [ ] **[You]** Retake the map screenshot (BAB 7.1) after the re-bake, showing Kalimantan, Jawa, and Sulawesi.
 - [ ] **[You]** Rewrite the new sections in your own words before submitting.
 
 ### Video
-- [ ] **[You]** Record from `../Proposal/TUTORIAL_VIDEO_DEMO.md` (updated 2 Nov for Kalimantan, Jawa, Sulawesi).
+- [ ] **[You]** Record from `../Proposal/TUTORIAL_VIDEO_DEMO.md` (updated 2 Nov for Kalimantan, Jawa, Sulawesi; section 4 is a word-for-word read-aloud script).
 
 ---
 
@@ -121,8 +121,8 @@ The prototype grows to all of Kalimantan, Jawa, and Sulawesi (17 provinces, 73 s
 - [ ] **[You]** Check the ADIKARA website for the Inovasi submission rules the guidebook leaves out: video length and file name, and how to submit the product (link, repo access). The repo stays private until 22 Nov.
 
 ### Proposal (owner C)
-- [ ] **[You]** Fill the `[EMAIL KETUA]` (cover) and `[TAUTAN VIDEO]` (Tabel 11) placeholders, then `sh build/ekspor.sh`.
-- [ ] **[You]** Change the title and every scope line from "Kalimantan Tengah" to Kalimantan, Jawa, Sulawesi (part of #9).
+- [ ] **[You]** Fill the `[TAUTAN VIDEO]` (now Tabel 13) placeholder (email done 2 Nov), then `sh build/ekspor.sh`.
+- [x] **[Claude]** (done 2 Nov) Change the title and every scope line from "Kalimantan Tengah" to Kalimantan, Jawa, Sulawesi (part of #9).
 - [x] Drafted 1 Nov: `../Proposal/PENYISIHAN_PROPOSAL_ADIKARA2026_INOVASI_SOFTWARE_TAKHUNTER.pdf` (26 pages, 1.1 MB), built by `../Proposal/build/ekspor.sh`. Still open: team lead email and video link placeholders, rewrite in your own words, retake the Dinas screenshot after the push.
 - [x] Dropped 1 Nov. Opening numbers: 3.524 sekolah, 571.338 murid PJJ karena asap (11 Agustus 2026). **No source found for these (checked 1 Nov); find one or drop them.** Kalteng's province-wide PJJ started 31 Aug (SE Gubernur).
 - [ ] Repeat the three lines: "BMKG memberi tahu cuacanya, Awasin memberi tahu tindakannya" · "Melengkapi data BMKG, KLHK, BNPB" · "Aturan yang memutuskan, AI yang memeriksa, manusia yang menandatangani".
