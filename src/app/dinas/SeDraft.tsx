@@ -20,7 +20,7 @@ export function SeDraft({ kabupaten }: { kabupaten: string[] }) {
           Buat draf surat edaran
         </button>
       </div>
-      <p className="small muted">Hanya angka total yang dikirim ke AI, tanpa nama siswa atau isi laporan.</p>
+      <p className="small muted">Hanya jumlah sekolah per rekomendasi yang dikirim ke AI.</p>
       {pending && <p className="muted" role="status">Menyusun draf…</p>}
       {pending && (
         <div className="skel-letter" aria-hidden="true">

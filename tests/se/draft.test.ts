@@ -1,16 +1,24 @@
-import { askGemini, kabTotals, sePrompt, type Overview } from '../../src/se/draft';
-const base = { hazard: null, levels: null, reports_today: 0, sick_reported: 0, sick_checkins: 0, emergency_active: false };
+import { askGemini, kabTotals, sePrompt, toOverview, type Overview } from '../../src/se/draft';
+const base = { hazard: null, levels: null };
 const fixtureRows: Overview[] = [
-  { ...base, school_id: '1', npsn: '1', name: 'SDN 1 Palangka Raya', kabupaten: 'Palangka Raya', action: 'daring', hazard: 'asap', reports_today: 2, sick_reported: 3, sick_checkins: 2, emergency_active: true },
+  { ...base, school_id: '1', npsn: '1', name: 'SDN 1 Palangka Raya', kabupaten: 'Palangka Raya', action: 'daring', hazard: 'asap' },
   { ...base, school_id: '2', npsn: '2', name: 'SMPN 2 Palangka Raya', kabupaten: 'Palangka Raya', action: 'tunda_masuk' },
   { ...base, school_id: '3', npsn: '3', name: 'SDN 1 Kapuas', kabupaten: 'Kapuas', action: 'normal' },
 ];
 test('totals group by kabupaten and carry no names', () => {
   const t = kabTotals(fixtureRows);
   expect(t.map((x) => x.kabupaten)).toEqual(['Kapuas', 'Palangka Raya']);
-  expect(t[1].byAction.daring).toBe(1); expect(t[1].sick).toBe(5);
-  expect(t[1].schools).toBe(2); expect(t[1].emergencies).toBe(1); expect(t[1].reports).toBe(2);
-  expect(sePrompt(t[1], '2026-08-09')).not.toContain('SDN 1 Palangka Raya');
+  expect(t[1]).toEqual({ kabupaten: 'Palangka Raya', schools: 2, byAction: { normal: 0, kurangi_luar: 0, tunda_masuk: 1, pulang_awal: 0, daring: 1 } });
+  const p = sePrompt(t[1], '2026-08-09');
+  expect(p).not.toContain('SDN 1 Palangka Raya');
+  for (const w of ['Laporan', 'sakit', 'mode belajar daring']) expect(p).not.toContain(w);
+});
+test('toOverview maps the schools select and defaults a missing status', () => {
+  const levels = { asap: 3, banjir: 0, angin: 0 } as const;
+  expect(toOverview({ id: 'a', npsn: '1', name: 'N', kabupaten: 'K', school_status: { action: 'daring', hazard: 'asap', levels } }))
+    .toEqual({ school_id: 'a', npsn: '1', name: 'N', kabupaten: 'K', action: 'daring', hazard: 'asap', levels });
+  expect(toOverview({ id: 'b', npsn: '2', name: 'M', kabupaten: 'K', school_status: null }))
+    .toEqual({ school_id: 'b', npsn: '2', name: 'M', kabupaten: 'K', action: 'normal', hazard: null, levels: null });
 });
 test('gemini failure returns null', async () => {
   process.env.GEMINI_API_KEY = 'k';
