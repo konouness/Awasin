@@ -1,6 +1,6 @@
 # Awasin TODO
 
-> **Where we left off (3 Nov 2026):** The multi-provinsi plan is built, applied to production (migration + seed), re-baked with every FIRMS fire (no distance limit; 9 Aug: 5.992 titik api), and pushed to `main`. Vercel has `GEMINI_API_KEY`, `DEMO_PASSWORD`, and `DEMO_LOGIN=1`. Waiting on you: retake the BAB 7.1 map screenshot, fill the proposal placeholders, and record the video. The proposal is at the 30-page limit. The "571.338 murid, 11 Agustus" number has no source; do not use it.
+> **Where we left off (4 Nov 2026):** Section 12 is built and committed locally (no login, no field reports / check-in / mode daring, actions worded for everyone, Sumatra instead of Sulawesi, 85 schools in 21 provinces). Replay re-baked from `supabase/seed.sql` (9 Aug: 33 normal / 8 kurangi luar / 35 tunda / 9 dari rumah, 6.250 titik panas; Kalteng still 8 / 12 / 5). Proposal rebuilt: 29 pages, 1,02 MB. Nothing is on production yet. Waiting on you, in order: db backup, `git push`, delete the `reports` bucket + `db push` + RLS test, seed, remove `DEMO_LOGIN` / `DEMO_PASSWORD` from Vercel, then retake every BAB 7 screenshot, rewrite the listed paragraphs, and record the video. The "571.338 murid, 11 Agustus" number has no source; do not use it.
 
 Submit by: **8 Nov 2026**. Finalists: 11 Nov. Final: 19 Nov. Awarding: 22 Nov.
 
