@@ -1,0 +1,10 @@
+drop policy if exists "reports insert own school" on storage.objects;
+drop policy if exists "reports read own school or dinas" on storage.objects;
+drop function if exists public.dinas_overview(date);
+drop function if exists public.predicted_level_at(uuid, text, timestamptz);
+drop function if exists public.submit_checkin(text, text, text, text, text[]);
+drop table public.health_checkins, public.field_reports, public.emergencies, public.tasks, public.push_subscriptions;
+drop table public.profiles;
+drop function public.my_school_id();
+drop function public.is_dinas();
+delete from auth.users where email like '%@awasin.id';

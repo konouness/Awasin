@@ -76,40 +76,4 @@ insert into public.schools (npsn, name, lat, lon, kabupaten, provinsi) values
   ('40300451', 'UPTD SDN 100 INPRES BALOSI', -4.933, 119.5437, 'Maros', 'Sulawesi Selatan')
 on conflict (npsn) do update set name = excluded.name, lat = excluded.lat, lon = excluded.lon, kabupaten = excluded.kabupaten, provinsi = excluded.provinsi;
 
-create temp table demo_accounts_tx on commit drop as
-select gen_random_uuid() as id, 'demo+' || npsn || '@awasin.id' as email, 'sekolah' as role, id as school_id, name
-from public.schools
-union all
-select gen_random_uuid(), 'dinas@awasin.id', 'dinas', null, 'Dinas Pendidikan (akun demo)';
-
-do $$ begin
-  if coalesce(current_setting('app.demo_password', true), '') = '' then
-    raise exception 'set app.demo_password first';
-  end if;
-end $$;
-
-insert into auth.users (instance_id, id, aud, role, email, encrypted_password, email_confirmed_at,
-  raw_app_meta_data, raw_user_meta_data, created_at, updated_at,
-  confirmation_token, recovery_token, email_change_token_new, email_change, email_change_token_current, reauthentication_token, phone_change, phone_change_token)
-select '00000000-0000-0000-0000-000000000000', a.id, 'authenticated', 'authenticated', a.email,
-  extensions.crypt(current_setting('app.demo_password'), extensions.gen_salt('bf')), now(),
-  '{"provider":"email","providers":["email"]}', '{}', now(), now(),
-  '', '', '', '', '', '', '', ''
-from demo_accounts_tx a
-where not exists (select 1 from auth.users u where u.email = a.email);
-
-update auth.users u set encrypted_password = extensions.crypt(current_setting('app.demo_password'), extensions.gen_salt('bf')), updated_at = now()
-from demo_accounts_tx a where u.email = a.email;
-
-insert into auth.identities (id, user_id, provider_id, provider, identity_data, last_sign_in_at, created_at, updated_at)
-select gen_random_uuid(), u.id, u.id::text, 'email',
-  jsonb_build_object('sub', u.id::text, 'email', u.email, 'email_verified', true), now(), now(), now()
-from auth.users u join demo_accounts_tx a on a.email = u.email
-where not exists (select 1 from auth.identities i where i.user_id = u.id and i.provider = 'email');
-
-insert into public.profiles (id, role, school_id, name)
-select u.id, a.role, a.school_id, a.name
-from auth.users u join demo_accounts_tx a on a.email = u.email
-on conflict (id) do update set role = excluded.role, school_id = excluded.school_id, name = excluded.name;
-
 commit;
