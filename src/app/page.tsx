@@ -42,7 +42,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
         <div className="map-box">
           <MapLoader schools={rows.map(({ npsn, name, lat, lon, level, actionLabel }) => ({ npsn, name, lat, lon, level, actionLabel, href: `/sekolah/${npsn}${q}` }))} fires={fires} />
         </div>
-        <aside className="side stack">
+        <aside className="side stack enter">
           <ReplayBar active={snap?.day ?? null} base="/" at={snap?.at} />
           <h1>Apa yang dilakukan sekolah hari ini</h1>
           <p className="muted">

@@ -64,7 +64,7 @@ export default async function DinasPage({ searchParams }: { searchParams: Promis
   return (
     <>
       <Topbar />
-      <main className="wrap stack" style={{ maxWidth: 1100 }}>
+      <main className="wrap stack enter" style={{ maxWidth: 1100 }}>
         <h1>Dasbor dinas</h1>
         <p className="muted">Hari ini, {today}. Diurutkan dari tindakan paling berat.</p>
         <div className="scroll-x">

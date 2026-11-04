@@ -14,7 +14,7 @@ export default async function LaporPage() {
   return (
     <>
       <Topbar />
-      <main className="wrap stack">
+      <main className="wrap stack enter">
         <h1>Laporan lapangan</h1>
         <p className="muted">{school?.name}. Isi apa yang terlihat sekarang di sekolah.</p>
         <ReportForm schoolId={me.school_id} reporterId={me.id} />

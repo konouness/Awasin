@@ -8,7 +8,7 @@ export default function LoginPage() {
   return (
     <>
       <Topbar />
-      <main className="wrap stack" style={{ maxWidth: 440 }}>
+      <main className="wrap stack enter" style={{ maxWidth: 440 }}>
         <h1>Masuk</h1>
         {demoEnabled() ? (
           <>

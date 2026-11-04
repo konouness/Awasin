@@ -44,7 +44,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   return (
     <>
       <Topbar />
-      <main className="wrap stack">
+      <main className="wrap stack enter">
         <div>
           <h1>{school.name}</h1>
           <p className="muted">{school.kabupaten}, NPSN {school.npsn}</p>

@@ -11,7 +11,7 @@ export default async function AbsenPage({ params }: { params: Promise<{ npsn: st
   if (!school) notFound();
   const { data: em } = await db.from('emergencies').select('id').eq('school_id', school.id).is('ended_at', null).maybeSingle();
   return (
-    <main className="wrap stack" style={{ maxWidth: 520 }}>
+    <main className="wrap stack enter" style={{ maxWidth: 520 }}>
       <h1>Absen kesehatan</h1>
       <p className="muted">{school.name}</p>
       {em ? <CheckinForm npsn={npsn} /> : <p>Sekolah berjalan normal. Absen kesehatan hanya dibuka saat belajar daring.</p>}

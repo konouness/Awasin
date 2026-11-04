@@ -12,7 +12,7 @@ export async function Topbar() {
   }
   return (
     <header className="topbar">
-      <Link href="/" className="brand">Awasin</Link>
+      <Link href="/" className="brand"><span className="mark" aria-hidden="true" />Awasin</Link>
       <nav aria-label="Menu utama">
         {me?.role === 'dinas' && <Link href="/dinas">Dasbor dinas</Link>}
         {home && <Link href={home}>Sekolah saya</Link>}
