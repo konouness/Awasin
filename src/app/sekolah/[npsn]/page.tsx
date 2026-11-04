@@ -3,7 +3,7 @@ import { Sparkline } from '@/components/Sparkline';
 import { ReplayBar } from '@/components/ReplayBar';
 import { Topbar } from '@/components/Topbar';
 import { HAZARD_ADVICE, SCORE_UNIT, THRESHOLD_SOURCE } from '@/lib/advice';
-import { ACTION_LABEL, HAZARD_LABEL, LEVEL_COLOR, LEVEL_LABEL } from '@/lib/status';
+import { ACTION_LABEL, HAZARD_LABEL, LEVEL_LABEL } from '@/lib/status';
 import { createClient, getSessionProfile } from '@/lib/supabase/server';
 import { EmergencyPanel } from './EmergencyPanel';
 import { formatWIB, hourWIB, isStale } from '@/lib/time';
@@ -11,8 +11,6 @@ import { HAZARDS, type Action, type Hazard, type Level } from '@/risk/types';
 import { replayDay } from '@/replay/replay';
 
 export const dynamic = 'force-dynamic';
-
-const SIGN_FG: Record<Level, string> = { 0: 'var(--on-l0)', 1: 'var(--on-l1)', 2: 'var(--on-l2)', 3: 'var(--on-l3)' };
 
 export default async function SchoolPage({ params, searchParams }: { params: Promise<{ npsn: string }>; searchParams: Promise<{ putar?: string }> }) {
   const { npsn } = await params;
@@ -60,7 +58,8 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
         )}
 
         {!(snap && !hist) && (<>
-        <section className="sign" style={{ ['--sign-bg' as string]: LEVEL_COLOR[top], ['--sign-fg' as string]: SIGN_FG[top] }} aria-label="Rekomendasi hari ini">
+        <section className={`sign lvl-${top}`} aria-label="Rekomendasi hari ini">
+          <p className="sign-tab">Level {top} · {LEVEL_LABEL[top]}</p>
           <p className="action">{ACTION_LABEL[action]}</p>
           {cause ? (
             <>
@@ -83,7 +82,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
         ) : null}
 
         {!(snap && !hist) && (
-        <section aria-label="Prakiraan 24 jam">
+        <section className="forecast" aria-label="Prakiraan 24 jam">
           <h2>24 jam ke depan</h2>
           {HAZARDS.map((h) => {
             const s = series(h);
@@ -93,7 +92,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
               <div className="hazard" key={h}>
                 <header>
                   <strong>{HAZARD_LABEL[h]}</strong>
-                  <span className="lv small"><span className="dot" style={{ background: LEVEL_COLOR[levels[h]] }} />{LEVEL_LABEL[levels[h]]}</span>
+                  <span className={`plate lvl-${levels[h]}`}>{LEVEL_LABEL[levels[h]]}</span>
                 </header>
                 {s.length ? (
                   <>
@@ -112,7 +111,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
         </section>
         )}
 
-        <section className="stack" aria-label="Langganan peringatan">
+        <section className="stack panel" aria-label="Langganan peringatan">
           <h2>Dapatkan peringatan</h2>
           <p>Kami kirim pesan saat risiko di sekolah ini naik.</p>
           <div className="row">

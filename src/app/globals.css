@@ -119,12 +119,20 @@ td, .count, .board { font-variant-numeric: tabular-nums; }
 
 
 .sign {
-  border-radius: var(--radius-l); padding: 22px 20px 20px;
-  background: var(--sign-bg); color: var(--sign-fg);
+  border-radius: var(--radius-l); border: 3px solid var(--ink); padding: 22px 20px 20px;
+  background: var(--c); color: var(--on); clip-path: inset(-20px);
 }
-.sign .action { font-family: var(--font-sign), sans-serif; font-weight: 800; font-size: clamp(2.2rem, 9vw, 3.6rem); line-height: 0.98; letter-spacing: -0.02em; font-stretch: 85%; }
+.sign, .enter > section.sign { animation: land 320ms var(--ease) both; }
+.sign-tab {
+  display: block; width: fit-content; margin: -37px 0 14px; padding: 4px 10px; border-radius: var(--radius-s);
+  background: var(--chip-ink); color: var(--chip-paper);
+  font-family: var(--font-sign), system-ui, sans-serif; font-stretch: 75%; font-weight: 800;
+  text-transform: uppercase; letter-spacing: .04em; font-size: 0.85rem; line-height: 1.2;
+  animation: rise var(--dur-in) var(--ease) 120ms both;
+}
+.sign .action { font-family: var(--font-sign), sans-serif; font-weight: 800; font-size: clamp(2.2rem, 9vw, 3.6rem); line-height: 0.98; letter-spacing: -0.02em; font-stretch: 62%; text-transform: uppercase; overflow-wrap: anywhere; }
 .sign .cause { margin-top: 10px; font-size: 1.05rem; font-weight: 700; }
-.sign .advice { margin-top: 4px; }
+.sign > .cause ~ p { margin-top: 6px; }
 
 .lv { display: inline-flex; align-items: center; gap: 6px; font-weight: 700; }
 .dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; flex: none; }
@@ -142,7 +150,20 @@ td, .count, .board { font-variant-numeric: tabular-nums; }
 }
 
 .hazard { padding: 14px 0; border-top: 1px solid var(--line); display: grid; gap: 8px; }
-.hazard header { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.hazard header { display: flex; align-items: baseline; gap: 10px; }
+.hazard header > :last-child { margin-left: auto; }
+.forecast { counter-reset: hz; }
+.forecast .hazard { counter-increment: hz; }
+.forecast .hazard header::before {
+  content: counter(hz, decimal-leading-zero); flex: none; padding: 2px 6px; border-radius: var(--radius-s);
+  background: var(--ink); color: var(--paper);
+  font-family: var(--font-sign), system-ui, sans-serif; font-stretch: 75%; font-weight: 800; font-size: 0.85rem;
+  font-variant-numeric: tabular-nums;
+}
+.bar {
+  transform-box: fill-box; transform-origin: bottom;
+  animation: grow 300ms var(--ease) both; animation-delay: calc(min(var(--i), 24) * 8ms);
+}
 
 .banner {
   position: relative; padding: 12px 14px 12px 28px; border-radius: var(--radius-s);
