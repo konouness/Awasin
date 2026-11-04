@@ -1,13 +1,8 @@
-import { shouldNotify, shouldActivateEmergency } from '../../src/notify/decide';
+import { shouldNotify } from '../../src/notify/decide';
 import { parseStartCommand, alertText } from '../../src/notify/telegram';
 test('notify only when level rises to ≥1', () => {
   expect(shouldNotify(null, 0)).toBe(false); expect(shouldNotify(null, 1)).toBe(true);
   expect(shouldNotify(2, 2)).toBe(false); expect(shouldNotify(2, 3)).toBe(true); expect(shouldNotify(3, 1)).toBe(false);
-});
-test('activate emergency only once', () => {
-  expect(shouldActivateEmergency('daring', false)).toBe(true);
-  expect(shouldActivateEmergency('daring', true)).toBe(false);
-  expect(shouldActivateEmergency('tunda_masuk', false)).toBe(false);
 });
 test('parseStartCommand', () => {
   expect(parseStartCommand('/start 30201234')).toBe('30201234');

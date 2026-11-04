@@ -4,8 +4,7 @@ import { ReplayBar } from '@/components/ReplayBar';
 import { Topbar } from '@/components/Topbar';
 import { HAZARD_ADVICE, SCORE_UNIT, THRESHOLD_SOURCE } from '@/lib/advice';
 import { ACTION_LABEL, HAZARD_LABEL, LEVEL_LABEL } from '@/lib/status';
-import { createClient, getSessionProfile } from '@/lib/supabase/server';
-import { EmergencyPanel } from './EmergencyPanel';
+import { createClient } from '@/lib/supabase/server';
 import { formatWIB, hourWIB, isStale } from '@/lib/time';
 import { HAZARDS, type Action, type Hazard, type Level } from '@/risk/types';
 import { replayDay } from '@/replay/replay';
@@ -35,9 +34,6 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   const stale = !snap && isStale(status?.updated_at ?? null, new Date());
   const series = (h: Hazard) => (rows ?? []).filter((r) => r.hazard === h);
   const bot = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME;
-  const me = await getSessionProfile();
-  const isOwner = me?.role === 'sekolah' && me.school_id === school.id;
-  const { data: activeEm } = snap ? { data: null } : await db.from('emergencies').select('id').eq('school_id', school.id).is('ended_at', null).maybeSingle();
 
   return (
     <>
@@ -72,14 +68,6 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
         </section>
         {status?.updated_at && <p className="small muted">Dihitung {formatWIB(status.updated_at)} dari prakiraan cuaca, kualitas udara, dan titik panas satelit.</p>}
         </>)}
-
-        {snap ? null : isOwner ? (
-          <EmergencyPanel schoolId={school.id} npsn={school.npsn} />
-        ) : activeEm ? (
-          <p className="banner">
-            Sekolah sedang belajar daring. Isi <a href={`/s/${school.npsn}/absen`}>absen kesehatan</a>.
-          </p>
-        ) : null}
 
         {!(snap && !hist) && (
         <section className="forecast" aria-label="Prakiraan 24 jam">
