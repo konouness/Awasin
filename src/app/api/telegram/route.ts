@@ -27,6 +27,6 @@ export async function POST(req: Request) {
     return Response.json({ ok: true });
   }
   await db.from('telegram_chats').upsert({ chat_id: chatId, school_id: school.id });
-  await sendTelegram(chatId, `Terdaftar untuk ${school.name}. Kami kirim pesan saat risiko naik.`).catch(() => {});
+  await sendTelegram(chatId, `Terdaftar untuk sekitar ${school.name}. Kami kirim pesan saat risiko naik.`).catch(() => {});
   return Response.json({ ok: true });
 }

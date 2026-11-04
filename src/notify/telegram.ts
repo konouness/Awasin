@@ -7,7 +7,7 @@ export function parseStartCommand(text: string): string | null {
 }
 
 export function alertText(schoolName: string, npsn: string, hazard: Hazard, level: Level, action: Action, appUrl: string): string {
-  return `⚠️ ${schoolName}: ${HAZARD_LABEL[hazard]} level ${level}. Rekomendasi: ${ACTION_LABEL[action]}. Detail: ${appUrl}/sekolah/${npsn}`;
+  return `⚠️ Sekitar ${schoolName}: ${HAZARD_LABEL[hazard]} level ${level}. Rekomendasi: ${ACTION_LABEL[action]}. Detail: ${appUrl}/sekolah/${npsn}`;
 }
 
 export async function sendTelegram(chatId: number, text: string): Promise<'ok' | 'blocked'> {

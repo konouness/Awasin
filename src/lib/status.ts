@@ -1,15 +1,15 @@
 import type { Action, Hazard, Level } from '@/risk/types';
 
 export const ACTION_LABEL: Record<Action, string> = {
-  normal: 'Masuk normal',
+  normal: 'Beraktivitas normal',
   kurangi_luar: 'Kurangi kegiatan luar ruang',
-  tunda_masuk: 'Tunda jam masuk',
-  pulang_awal: 'Pulangkan lebih awal',
-  daring: 'Belajar daring',
+  tunda_masuk: 'Tunda bepergian',
+  pulang_awal: 'Pulang lebih awal',
+  daring: 'Belajar dan bekerja dari rumah',
 };
 
 export const HAZARD_LABEL: Record<Hazard, string> = {
-  asap: 'Asap karhutla',
+  asap: 'Asap / polusi udara',
   banjir: 'Banjir / hujan ekstrem',
   angin: 'Angin / cuaca ekstrem',
 };

@@ -42,6 +42,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
         <div>
           <h1>{school.name}</h1>
           <p className="muted">{school.kabupaten}, NPSN {school.npsn}</p>
+          <p>Rekomendasi untuk warga, siswa, dan pekerja di sekitar sekolah ini.</p>
         </div>
 
         <ReplayBar active={snap?.day ?? null} base={`/sekolah/${school.npsn}`} at={snap?.at} />
@@ -101,7 +102,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
 
         <section className="stack panel" aria-label="Langganan peringatan">
           <h2>Dapatkan peringatan</h2>
-          <p>Kami kirim pesan saat risiko di sekolah ini naik.</p>
+          <p>Kami kirim pesan saat risiko di sekitar sekolah ini naik.</p>
           <div className="row">
             {bot && <a className="btn" href={`https://t.me/${bot}?start=${school.npsn}`}>Ikuti di Telegram</a>}
           </div>

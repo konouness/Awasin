@@ -2,9 +2,9 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const QUOTED = [
-  'Belajar daring', 'Masuk normal', 'Tunda jam masuk', 'Data historis', 'Bukan data hari ini.', 'Langsung', 'Putar ulang: 9 Agu',
-  'Apa yang dilakukan sekolah hari ini', 'sekolah di', 'titik panas (48 jam)', 'Memuat peta…', 'Lihat detail sekolah',
-  'Masuk', 'Dasbor dinas',
+  'Belajar dan bekerja dari rumah', 'Beraktivitas normal', 'Tunda bepergian', 'Data historis', 'Bukan data hari ini.', 'Langsung', 'Putar ulang: 9 Agu',
+  'Apa yang sebaiknya dilakukan hari ini', 'sekolah di', 'titik panas (48 jam)', 'Memuat peta…', 'Lihat detail sekolah',
+  'Dasbor dinas',
   '24 jam ke depan', 'Dapatkan peringatan', 'Ikuti di Telegram',
   'Draf surat edaran', 'Kabupaten/kota', 'Buat draf surat edaran', 'Menyusun draf…', 'Draf AI, periksa sebelum ditandatangani',
 ]

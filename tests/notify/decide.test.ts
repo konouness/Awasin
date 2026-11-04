@@ -10,6 +10,6 @@ test('parseStartCommand', () => {
 });
 test('alertText names school, hazard, level, action and link', () => {
   const t = alertText('SDN 1 Pahandut', '30203558', 'asap', 3, 'daring', 'https://x.app');
-  expect(t).toContain('SDN 1 Pahandut'); expect(t).toContain('Asap karhutla level 3');
-  expect(t).toContain('Belajar daring'); expect(t).toContain('https://x.app/sekolah/30203558');
+  expect(t.startsWith('⚠️ Sekitar SDN 1 Pahandut:')).toBe(true); expect(t).toContain('Asap / polusi udara level 3');
+  expect(t).toContain('Belajar dan bekerja dari rumah'); expect(t).toContain('https://x.app/sekolah/30203558');
 });

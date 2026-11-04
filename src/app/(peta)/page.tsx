@@ -46,9 +46,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
         </div>
         <aside className="side stack enter">
           <ReplayBar active={snap?.day ?? null} base="/" at={snap?.at} />
-          <h1>Apa yang dilakukan sekolah hari ini</h1>
+          <h1>Apa yang sebaiknya dilakukan hari ini</h1>
           <p className="muted">
-            {rows.length} sekolah di {new Set(rows.map((r) => r.provinsi)).size} provinsi, prakiraan 6 jam ke depan.
+            {rows.length} lokasi sekolah di {new Set(rows.map((r) => r.provinsi)).size} provinsi, prakiraan 6 jam ke depan.
             {updated ? ` Diperbarui ${formatWIB(updated)}.` : ''}
           </p>
           {stale && (
