@@ -9,9 +9,9 @@ export default function Loading() {
         <div className="map-box"><div className="skel map-skel" aria-hidden="true" /></div>
         <aside className="side stack">
           <div className="chips" aria-hidden="true">
-            <Bone h={36} w={90} />
-            <Bone h={36} w={110} />
-            <Bone h={36} w={80} />
+            <Bone h={44} w={90} />
+            <Bone h={44} w={110} />
+            <Bone h={44} w={80} />
           </div>
           <Bone h={40} w="70%" />
           <div className="skel-tiles">

@@ -11,6 +11,8 @@ import { ACTION_ORDER, type Action, type Hazard, type Level } from '@/risk/types
 
 export const dynamic = 'force-dynamic';
 
+const ACTION_LV: Record<Action, Level> = { normal: 0, kurangi_luar: 1, tunda_masuk: 2, pulang_awal: 2, daring: 3 };
+
 type Row = { npsn: string; name: string; lat: number; lon: number; kabupaten: string; provinsi: string; school_status: { action: Action; levels: Record<Hazard, Level> } | null };
 
 export default async function Home({ searchParams }: { searchParams: Promise<{ putar?: string }> }) {
@@ -54,10 +56,18 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
               Data belum diperbarui sejak {run?.finished_at ? formatWIB(run.finished_at) : 'awal'}. Status di bawah mungkin sudah berubah.
             </p>
           )}
+          <div className="board" aria-hidden="true">
+            {[...counts].reverse().map(([a, n]) => (
+              <div key={a} className={`lvl-${ACTION_LV[a]}`}>
+                <span className="count" style={{ ['--n' as string]: n }} />
+                {ACTION_LABEL[a]}
+              </div>
+            ))}
+          </div>
           <p className="small">{counts.map(([a, n]) => `${n} ${ACTION_LABEL[a].toLowerCase()}`).join(', ')}</p>
           <div className="legend" aria-label="Arti warna cincin">
             {([0, 1, 2, 3] as Level[]).map((l) => (
-              <span key={l} className="lv"><span className="dot" style={{ background: LEVEL_COLOR[l] }} />{LEVEL_LABEL[l]}</span>
+              <span key={l} className={`plate lvl-${l}`}>{LEVEL_LABEL[l]}</span>
             ))}
             <span className="lv"><span className="dot fire" />{fires.length} titik api (48 jam)</span>
           </div>
@@ -68,7 +78,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
           </div>
           <ol>
             {rows.map((s) => (
-              <li key={s.npsn}>
+              <li key={s.npsn} className={`lvl-${s.level}`}>
                 <Link href={`/sekolah/${s.npsn}${q}`}>
                   <span dangerouslySetInnerHTML={{ __html: badgeHtml(jenjangOf(s.name), LEVEL_COLOR[s.level]) }} />
                   <span>

@@ -8,7 +8,7 @@ export function ReplayBar({ active, base, at }: { active: string | null; base: s
   return (
     <div className="stack">
       <nav className="chips" aria-label="Pilih waktu data">
-        <Link href={base} aria-current={active ? undefined : 'page'}>Langsung</Link>
+        <Link href={base} aria-current={active ? undefined : 'page'} className={active ? undefined : 'live'}>Langsung</Link>
         {REPLAY_DAYS.map((d) => (
           <Link key={d} href={`${base}?putar=${d}`} aria-current={active === d ? 'page' : undefined}>{LABEL[d]}</Link>
         ))}

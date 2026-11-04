@@ -11,7 +11,7 @@ export type MapSchool = { npsn: string; name: string; lat: number; lon: number; 
 
 export const FIRE_COLOR = '#ff3d00';
 const canvas = L.canvas();
-const icon = (s: MapSchool) => L.divIcon({ html: badgeHtml(jenjangOf(s.name), LEVEL_COLOR[s.level]), className: 'badge-icon', iconSize: [34, 34], iconAnchor: [17, 17], popupAnchor: [0, -16] });
+const icon = (s: MapSchool) => L.divIcon({ html: badgeHtml(jenjangOf(s.name), LEVEL_COLOR[s.level]), className: s.level === 3 ? 'badge-icon pulse' : 'badge-icon', iconSize: [34, 34], iconAnchor: [17, 17], popupAnchor: [0, -16] });
 
 export default function SchoolMap({ schools, fires }: { schools: MapSchool[]; fires: [number, number][] }) {
   return (
@@ -31,7 +31,7 @@ export default function SchoolMap({ schools, fires }: { schools: MapSchool[]; fi
             <br />
             {s.actionLabel}
             <br />
-            <a href={s.href}>Lihat detail sekolah</a>
+            <a href={s.href} className="btn">Lihat detail sekolah</a>
           </Popup>
         </Marker>
       ))}

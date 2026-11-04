@@ -7,8 +7,8 @@ export default function Loading() {
       <main className="wrap stack" role="status">
         <Bone h={40} w="70%" />
         <div className="chips" aria-hidden="true">
-          <Bone h={36} w={90} />
-          <Bone h={36} w={110} />
+          <Bone h={44} w={90} />
+          <Bone h={44} w={110} />
         </div>
         <Bone h={200} className="skel-sign" />
         {[0, 1, 2].map((i) => (
