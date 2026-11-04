@@ -16,7 +16,7 @@ export function parseFirmsCsv(csv: string): Point[] {
   return out;
 }
 
-export const FIRMS_BBOX = { west: 105, south: -9, east: 127.5, north: 6 } as const;
+export const FIRMS_BBOX = { west: 95, south: -9, east: 119.5, north: 6.5 } as const;
 
 export function firmsUrl(key: string, day?: string): string {
   const { west, south, east, north } = FIRMS_BBOX;

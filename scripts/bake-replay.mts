@@ -1,11 +1,12 @@
-import { writeFileSync } from 'node:fs';
-import { createClient } from '@supabase/supabase-js';
+import { readFileSync, writeFileSync } from 'node:fs';
 import { REPLAY_DAYS } from '../src/replay/days';
 import { snapshotAt, type Snapshot } from '../src/replay/snapshot';
 
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, (process.env.SUPABASE_SERVICE_ROLE_KEY ?? process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY)!, { auth: { persistSession: false } });
-const { data: schools, error } = await db.from('schools').select('id, npsn, lat, lon').order('npsn');
-if (error || !schools) throw new Error(error?.message ?? 'no schools');
+const sql = readFileSync(new URL('../supabase/seed.sql', import.meta.url), 'utf8');
+const schools = [...sql.matchAll(/\('(\d{8})', '[^']+', (-?[\d.]+), (-?[\d.]+), /g)]
+  .map((m) => ({ id: m[1], npsn: m[1], lat: Number(m[2]), lon: Number(m[3]) }))
+  .sort((a, b) => a.npsn.localeCompare(b.npsn));
+if (schools.length === 0) throw new Error('no schools in seed.sql');
 
 const out: Record<string, Snapshot> = {};
 for (const day of REPLAY_DAYS) {

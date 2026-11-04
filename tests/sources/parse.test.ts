@@ -34,7 +34,7 @@ test('firms url takes the two days before', () => {
   expect(firmsUrl('K')).toMatch(/\/2$/);
   expect(firmsUrl('K', '2026-08-09')).toMatch(/\/2\/2026-08-07$/);
 });
-test('firms area covers Jawa, Kalimantan and Sulawesi', () => {
-  expect(FIRMS_BBOX).toEqual({ west: 105, south: -9, east: 127.5, north: 6 });
-  expect(firmsUrl('K')).toContain('/VIIRS_NOAA21_NRT/105,-9,127.5,6/2');
+test('firms area covers Sumatra, Jawa and Kalimantan', () => {
+  expect(FIRMS_BBOX).toEqual({ west: 95, south: -9, east: 119.5, north: 6.5 });
+  expect(firmsUrl('K')).toContain('/VIIRS_NOAA21_NRT/95,-9,119.5,6.5/2');
 });

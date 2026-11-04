@@ -7,14 +7,13 @@ const rows = [...sql.matchAll(/\('(\d{8})', '([^']+)', (-?[\d.]+), (-?[\d.]+), '
 }));
 
 test('every seeded school is real-shaped, inside the FIRMS area, and within quota', () => {
-  expect(rows.length).toBeGreaterThanOrEqual(73);
-  expect(rows.length).toBeLessThanOrEqual(150);
+  expect(rows).toHaveLength(85);
   expect(new Set(rows.map((r) => r.npsn)).size).toBe(rows.length);
   for (const r of rows) {
     expect(r.lat).toBeGreaterThan(FIRMS_BBOX.south); expect(r.lat).toBeLessThan(FIRMS_BBOX.north);
     expect(r.lon).toBeGreaterThan(FIRMS_BBOX.west); expect(r.lon).toBeLessThan(FIRMS_BBOX.east);
     expect(r.lat).not.toBe(0); expect(r.lon).not.toBe(0);
   }
-  expect(new Set(rows.map((r) => r.provinsi))).toEqual(new Set(['Kalimantan Barat', 'Kalimantan Tengah', 'Kalimantan Selatan', 'Kalimantan Timur', 'Kalimantan Utara', 'Banten', 'DKI Jakarta', 'Jawa Barat', 'Jawa Tengah', 'DI Yogyakarta', 'Jawa Timur', 'Sulawesi Utara', 'Gorontalo', 'Sulawesi Tengah', 'Sulawesi Barat', 'Sulawesi Selatan', 'Sulawesi Tenggara']));
+  expect(new Set(rows.map((r) => r.provinsi))).toEqual(new Set(['Kalimantan Barat', 'Kalimantan Tengah', 'Kalimantan Selatan', 'Kalimantan Timur', 'Kalimantan Utara', 'Banten', 'DKI Jakarta', 'Jawa Barat', 'Jawa Tengah', 'DI Yogyakarta', 'Jawa Timur', 'Aceh', 'Sumatera Utara', 'Sumatera Barat', 'Riau', 'Kepulauan Riau', 'Jambi', 'Sumatera Selatan', 'Kepulauan Bangka Belitung', 'Bengkulu', 'Lampung']));
   expect(rows.filter((r) => r.provinsi === 'Kalimantan Tengah')).toHaveLength(25);
 });
