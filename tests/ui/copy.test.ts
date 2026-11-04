@@ -3,7 +3,7 @@ import { join } from 'node:path'
 
 const QUOTED = [
   'Belajar daring', 'Masuk normal', 'Tunda jam masuk', 'Data historis', 'Bukan data hari ini.', 'Langsung', 'Putar ulang: 9 Agu',
-  'Apa yang dilakukan sekolah hari ini', 'sekolah di', 'titik api (48 jam)', 'Memuat peta…', 'Lihat detail sekolah',
+  'Apa yang dilakukan sekolah hari ini', 'sekolah di', 'titik panas (48 jam)', 'Memuat peta…', 'Lihat detail sekolah',
   'Masuk', 'Keluar', 'Sekolah saya', 'Kirim laporan', 'Dasbor dinas', 'Masuk sebagai Sekolah', 'Masuk sebagai Dinas Pendidikan',
   'Laporan lapangan', 'Jarak pandang (meter)', 'Tercium bau asap', 'Siswa sakit atau terdampak hari ini', 'Foto (opsional)',
   'Mengirim…', 'Laporan terkirim ke dinas.', 'Mode darurat', 'Aktifkan mode daring', 'Mode daring aktif', 'Akhiri mode daring',

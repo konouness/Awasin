@@ -12,7 +12,7 @@ for (const day of REPLAY_DAYS) {
   const s = await snapshotAt(schools, day);
   const counts: Record<string, number> = {};
   for (const x of Object.values(s.schools)) counts[x.status.action] = (counts[x.status.action] ?? 0) + 1;
-  console.log(day, Object.keys(s.schools).length, 'sekolah', counts, s.fires.length, 'titik api');
+  console.log(day, Object.keys(s.schools).length, 'sekolah', counts, s.fires.length, 'titik panas');
   out[day] = s;
   await new Promise((r) => setTimeout(r, 2000));
 }

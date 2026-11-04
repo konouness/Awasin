@@ -70,7 +70,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
             <p className="cause">Tidak ada ancaman dalam 6 jam ke depan.</p>
           )}
         </section>
-        {status?.updated_at && <p className="small muted">Dihitung {formatWIB(status.updated_at)} dari prakiraan cuaca, kualitas udara, dan titik api satelit.</p>}
+        {status?.updated_at && <p className="small muted">Dihitung {formatWIB(status.updated_at)} dari prakiraan cuaca, kualitas udara, dan titik panas satelit.</p>}
         </>)}
 
         {snap ? null : isOwner ? (

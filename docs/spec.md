@@ -8,7 +8,7 @@ Sumber aturan lomba: `/Users/konou/VSCode/LockedIn/K Project/GuideBook Adikara 2
 Aplikasi peringatan dan tanggap darurat bencana berbasis web yang membantu sekolah
 dan dinas pendidikan mengambil keputusan sebelum dan saat bencana mengancam,
 khususnya kabut asap karhutla, banjir dan hujan ekstrem, serta cuaca ekstrem dan
-angin kencang. Aplikasi mengolah data satelit dan prakiraan cuaca (titik api,
+angin kencang. Aplikasi mengolah data satelit dan prakiraan cuaca (titik panas,
 kualitas udara, curah hujan, kecepatan angin) menjadi status risiko tiap sekolah
 untuk 6–24 jam ke depan, lalu memberi rekomendasi otomatis kepada kepala sekolah:
 masuk normal, tunda jam masuk, pulangkan lebih awal, wajib masker, atau belajar

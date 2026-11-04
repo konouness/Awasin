@@ -69,8 +69,9 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
             {([0, 1, 2, 3] as Level[]).map((l) => (
               <span key={l} className={`plate lvl-${l}`}>{LEVEL_LABEL[l]}</span>
             ))}
-            <span className="lv"><span className="dot fire" />{fires.length} titik api (48 jam)</span>
+            <span className="lv"><span className="dot fire" />{fires.length} titik panas (48 jam)</span>
           </div>
+          <p className="small muted">Titik panas adalah area yang terdeteksi satelit lebih panas dari sekitarnya. Bisa kebakaran hutan atau lahan, tetapi bisa juga pabrik, PLTU, atau pembakaran sampah.</p>
           <div className="legend" aria-label="Jenjang sekolah">
             {(Object.keys(JENJANG_LABEL) as Jenjang[]).map((j) => (
               <span key={j} className="lv" dangerouslySetInnerHTML={{ __html: badgeHtml(j, 'transparent') + JENJANG_LABEL[j] }} />
