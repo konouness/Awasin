@@ -154,7 +154,7 @@ Small tasks, but each one is real and their own. About an hour each before submi
 
 ## 11. Reframe: dari peringatan menjadi tindakan, untuk Indonesia (3 Nov 2026)
 
-Direction set by the user: Awasin is for Indonesia, and schools are where it starts. Proposal-only change; no code changed. The prototype area in the proposal is still Kalimantan + Jawa + Sulawesi until section 10 / the 3 Nov plan runs.
+Direction set by the user: Awasin is for Indonesia, and schools are where it starts. Proposal-only change; no code changed. The prototype area in the proposal is still Kalimantan + Jawa + Sulawesi until section 10 / the 3 Nov plan runs. **Section 10 (the 3 Nov plan) is replaced by section 12.**
 
 - [x] **[Claude]** `Proposal/build/buat_docx.py`: new title (no area named), abstract opens with the Sumatra 2025 warning-without-action story and the 283.270 ISPA count, BAB 1.1 renamed "Peringatan ada, tindakan terlambat" with a new first paragraph, BAB 1.3 gets a "why schools first" paragraph, Tabel 11 gets stage 3 "Di luar sekolah" (ASEAN becomes stage 4), four new references (detikNews 2025, Kompas.com 2025, Mongabay 2026, Okezone 2026), all checked against the article text on 3 Nov. Rebuilt: 30 pages, 1,15 MB, author set.
 - [x] **[Claude]** `Proposal/TUTORIAL_VIDEO_DEMO.md`: problem scene opens with Sumatra 2025, closing card says "Dari peringatan menjadi tindakan", and two new "don't say" rules.
@@ -162,3 +162,15 @@ Direction set by the user: Awasin is for Indonesia, and schools are where it sta
 - [ ] **[You]** Rewrite these new sentences in your own words: the abstract's first paragraph and its "Sekolah adalah titik awal" sentence, the whole first paragraph of BAB 1.1, the ISPA clause added to its second paragraph, the "Sekolah dipilih sebagai titik awal" paragraph in BAB 1.3, and Tabel 11 row 3.
 - [ ] **[You]** Check dates: the guidebook (p. 9 and 13) says the deadline is 9 Nov 23.59 WIB, finalists 19 Nov, final 3–12 Dec, awarding 14 Jan 2027. The "Submit by" line at the top of this file says 8 Nov / 11 Nov / 19 Nov / 22 Nov.
 - Not built, so not claimed anywhere: a Siklon Senyar replay and a "sudah diumumkan" confirmation loop. Both are candidates if there is time after section 10.
+
+## 12. Tanpa login, untuk semua warga, Sumatra (4 Nov 2026)
+
+Decided by the user on 4 Nov. Replaces section 10 (the 3 Nov version of `docs/superpowers/plans/2026-11-03-awasin-kejelasan-sumatra.md`).
+
+- Delete: automatic mode daring, the mode darurat panel, field reports (and with them the report vs satellite match), and the health check-in.
+- Delete every login: school accounts, the Dinas account, and the demo login. No page needs an account.
+- Keep the Dinas dashboard and the AI surat edaran draft, open to everyone.
+- The five actions are worded for everyone, not only students. The action keys (`normal`, `kurangi_luar`, `tunda_masuk`, `pulang_awal`, `daring`) stay, so the database, the replay data and the back-test don't change.
+- Keep from the 3 Nov plan: the haze label, the "raised by hotspots" line, the legend fix, and Sulawesi → Sumatra. Automatic mode daring ending by itself is dropped, because mode daring is gone.
+- Cost: field reports were the only ground truth from the field. The proposal must not claim crowdsourcing anywhere.
+
