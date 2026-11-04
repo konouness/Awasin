@@ -6,6 +6,21 @@ export function parseStartCommand(text: string): string | null {
   return m ? m[1] : null;
 }
 
+export function commandOf(text: string): string | null {
+  const m = /^\/(\w+)(?:@\w+)?(?:\s|$)/.exec(text.trim());
+  return m ? m[1].toLowerCase() : null;
+}
+
+export const HELP_TEXT = [
+  'Awasin mengirim peringatan asap dan titik panas di sekitar sekolah.',
+  '',
+  'Cara berlangganan: buka halaman sekolah di Awasin lalu tekan "Ikuti di Telegram".',
+  '',
+  '/status — lihat sekolah yang Anda ikuti',
+  '/unfollow — berhenti menerima peringatan',
+  '/help — tampilkan pesan ini',
+].join('\n');
+
 export function alertText(schoolName: string, npsn: string, hazard: Hazard, level: Level, action: Action, appUrl: string): string {
   return `⚠️ Sekitar ${schoolName}: ${HAZARD_LABEL[hazard]} level ${level}. Rekomendasi: ${ACTION_LABEL[action]}. Detail: ${appUrl}/sekolah/${npsn}`;
 }
