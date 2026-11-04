@@ -6,6 +6,7 @@ import { HAZARD_ADVICE, SCORE_UNIT, THRESHOLD_SOURCE } from '@/lib/advice';
 import { ACTION_LABEL, HAZARD_LABEL, LEVEL_LABEL } from '@/lib/status';
 import { createClient } from '@/lib/supabase/server';
 import { formatWIB, hourWIB, isStale } from '@/lib/time';
+import { raisedByFires } from '@/risk/score';
 import { HAZARDS, type Action, type Hazard, type Level } from '@/risk/types';
 import { replayDay } from '@/replay/replay';
 
@@ -34,6 +35,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
   const stale = !snap && isStale(status?.updated_at ?? null, new Date());
   const series = (h: Hazard) => (rows ?? []).filter((r) => r.hazard === h);
   const bot = process.env.NEXT_PUBLIC_TELEGRAM_BOT_USERNAME;
+  const fireBump = cause === 'asap' && series('asap').slice(0, 6).some((r) => r.level === top && raisedByFires(r.level as Level, r.score));
 
   return (
     <>
@@ -61,6 +63,7 @@ export default async function SchoolPage({ params, searchParams }: { params: Pro
           {cause ? (
             <>
               <p className="cause">{HAZARD_LABEL[cause]}, level {top} ({LEVEL_LABEL[top]}) dalam 6 jam ke depan</p>
+              {fireBump && <p className="small">Naik satu level: ada 10 titik panas atau lebih dalam 50 km di arah datangnya angin. Titik panas bisa kebakaran lahan, bisa juga pabrik atau PLTU.</p>}
               <p className="advice">{HAZARD_ADVICE[cause]}</p>
             </>
           ) : (

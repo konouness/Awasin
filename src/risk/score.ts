@@ -10,6 +10,10 @@ export function levelAsap(pm25: number, upwindHotspots: number): Level {
   return cap(base + (upwindHotspots >= 10 ? 1 : 0));
 }
 
+export function raisedByFires(level: Level, pm25: number): boolean {
+  return level > step(pm25, [55.5, 150.5, 250.5]);
+}
+
 export function levelBanjir(rain24hMm: number): Level {
   return step(rain24hMm, [50, 100, 150]);
 }

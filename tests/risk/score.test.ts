@@ -1,4 +1,4 @@
-import { levelAsap, levelBanjir, levelAngin, actionFor, recommend } from '../../src/risk/score';
+import { levelAsap, levelBanjir, levelAngin, actionFor, recommend, raisedByFires } from '../../src/risk/score';
 test('asap ISPU breakpoints', () => {
   expect(levelAsap(55.4, 0)).toBe(0); expect(levelAsap(55.5, 0)).toBe(1);
   expect(levelAsap(150.5, 0)).toBe(2); expect(levelAsap(250.5, 0)).toBe(3);
@@ -28,4 +28,10 @@ test('wind never asks for daring', () => {
   expect(actionFor('angin', 2)).toBe('tunda_masuk');
   expect(actionFor('angin', 3)).toBe('tunda_masuk');
   expect(recommend({ asap: 0, banjir: 0, angin: 3 })).toEqual({ action: 'tunda_masuk', hazard: 'angin' });
+});
+test('raisedByFires spots the upwind-hotspot bump', () => {
+  expect(raisedByFires(levelAsap(28, 12), 28)).toBe(true);
+  expect(raisedByFires(levelAsap(28, 0), 28)).toBe(false);
+  expect(raisedByFires(levelAsap(204, 0), 204)).toBe(false);
+  expect(raisedByFires(levelAsap(300, 12), 300)).toBe(false);
 });
