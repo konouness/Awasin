@@ -174,3 +174,8 @@ Decided by the user on 4 Nov. Replaces section 10 (the 3 Nov version of `docs/su
 - Keep from the 3 Nov plan: the haze label, the "raised by hotspots" line, the legend fix, and Sulawesi → Sumatra. Automatic mode daring ending by itself is dropped, because mode daring is gone.
 - Cost: field reports were the only ground truth from the field. The proposal must not claim crowdsourcing anywhere.
 
+
+### Proposal rewrite after section 12 (done by Claude, 4 Nov)
+- [x] **[Claude]** `Proposal/build/buat_docx.py` and `diagram.py` match the no-login, Sumatra site: 29 pages, 1,02 MB, author set. Replay 9 Aug: 85 sekolah, 33 beraktivitas normal / 8 kurangi kegiatan luar ruang / 35 tunda bepergian / 9 belajar dan bekerja dari rumah, 6.250 titik panas; Kalteng unchanged at 8 / 12 / 5.
+- [ ] **[You]** Rewrite these new sentences in your own words: the abstract's second paragraph; BAB 1.2 item c and the last sentence of the Pontianak paragraph; the first paragraph of BAB 1.3 (its first two sentences) and the new "Asap dari titik panas" row in Tabel 1; the SDG 3 and SDG 4 rows; BAB 2.1 items 3 and 4; Tabel 2.2 (all three rows); BAB 3.1 items 1, 4 and 5; Tabel 5.2 (all three rows); F-07 to F-09; the Privasi row in 5.4; the last sentence of 5.6; the 5.8 paragraph; the 6.2 "Modul dinas" paragraph; the 7.1, 7.2 and 7.3 paragraphs; and 4.2 row 6.
+- [ ] **[You]** Retake every BAB 7 screenshot (map, school page, dashboard): every page changed. `03_login.png`, `04_sekolah_masuk.png`, `05_lapor.png` and `06_absen.png` in `Proposal/img` are no longer used.

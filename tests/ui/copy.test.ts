@@ -2,11 +2,12 @@ import { readdirSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 
 const QUOTED = [
-  'Belajar dan bekerja dari rumah', 'Beraktivitas normal', 'Tunda bepergian', 'Data historis', 'Bukan data hari ini.', 'Langsung', 'Putar ulang: 9 Agu',
-  'Apa yang sebaiknya dilakukan hari ini', 'sekolah di', 'titik panas (48 jam)', 'Memuat peta…', 'Lihat detail sekolah',
-  'Dasbor dinas',
-  '24 jam ke depan', 'Dapatkan peringatan', 'Ikuti di Telegram',
-  'Draf surat edaran', 'Kabupaten/kota', 'Buat draf surat edaran', 'Menyusun draf…', 'Draf AI, periksa sebelum ditandatangani',
+  'Dapatkan peringatan', 'Ikuti di Telegram', 'Terdaftar untuk sekitar', 'Kami kirim pesan saat risiko naik.',
+  'Putar ulang: 9 Agu', 'Data historis: kondisi', 'Bukan data hari ini.', 'Apa yang sebaiknya dilakukan hari ini', 'lokasi sekolah di',
+  'Beraktivitas normal', 'Kurangi kegiatan luar ruang', 'Tunda bepergian', 'Belajar dan bekerja dari rumah', 'Lihat detail sekolah',
+  'Rekomendasi untuk warga, siswa, dan pekerja di sekitar sekolah ini.', 'Asap / polusi udara', 'dalam 6 jam ke depan',
+  'Naik satu level: ada 10 titik panas atau lebih dalam 50 km di arah datangnya angin.', '24 jam ke depan', 'Ambang: ISPU KLHK',
+  'Dasbor dinas', 'Draf surat edaran', 'Kabupaten/kota', 'Buat draf surat edaran', 'Menyusun draf…', 'Draf AI, periksa sebelum ditandatangani',
 ]
 
 test('every string the demo script quotes is still in src', () => {
