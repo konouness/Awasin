@@ -98,7 +98,7 @@ The prototype grows to all of Kalimantan, Jawa, and Sulawesi (17 provinces, 73 s
 - [ ] **[You]** Rewrite the new sections in your own words before submitting.
 
 ### Video
-- [ ] **[You]** Record from `../Proposal/TUTORIAL_VIDEO_DEMO.md` (updated 2 Nov for Kalimantan, Jawa, Sulawesi; section 4 is a word-for-word read-aloud script).
+- [ ] **[You]** Record from `../Proposal/TUTORIAL_VIDEO_DEMO.md` (updated 2 Nov for Kalimantan, Jawa, Sulawesi; section 4 is the click guide, section 5 the read-aloud script).
 
 ---
 
@@ -151,3 +151,14 @@ Small tasks, but each one is real and their own. About an hour each before submi
 - [ ] **[Both]** Slides for 7 minutes of presentation and demo.
 - [ ] **[Both]** Q&A bank: where the thresholds come from, accuracy (back-test), fake reports (photo check), why not just BMKG, student privacy, cost to scale beyond Kalteng, schools with bad internet.
 - [ ] **[You]** Every team member can explain how a recommendation is calculated ("pemahaman materi" is 20%).
+
+## 11. Reframe: dari peringatan menjadi tindakan, untuk Indonesia (3 Nov 2026)
+
+Direction set by the user: Awasin is for Indonesia, and schools are where it starts. Proposal-only change; no code changed. The prototype area in the proposal is still Kalimantan + Jawa + Sulawesi until section 10 / the 3 Nov plan runs.
+
+- [x] **[Claude]** `Proposal/build/buat_docx.py`: new title (no area named), abstract opens with the Sumatra 2025 warning-without-action story and the 283.270 ISPA count, BAB 1.1 renamed "Peringatan ada, tindakan terlambat" with a new first paragraph, BAB 1.3 gets a "why schools first" paragraph, Tabel 11 gets stage 3 "Di luar sekolah" (ASEAN becomes stage 4), four new references (detikNews 2025, Kompas.com 2025, Mongabay 2026, Okezone 2026), all checked against the article text on 3 Nov. Rebuilt: 30 pages, 1,15 MB, author set.
+- [x] **[Claude]** `Proposal/TUTORIAL_VIDEO_DEMO.md`: problem scene opens with Sumatra 2025, closing card says "Dari peringatan menjadi tindakan", and two new "don't say" rules.
+- [x] **[Claude]** The 3 Nov plan, Task 6: keeps the new title and closing card.
+- [ ] **[You]** Rewrite these new sentences in your own words: the abstract's first paragraph and its "Sekolah adalah titik awal" sentence, the whole first paragraph of BAB 1.1, the ISPA clause added to its second paragraph, the "Sekolah dipilih sebagai titik awal" paragraph in BAB 1.3, and Tabel 11 row 3.
+- [ ] **[You]** Check dates: the guidebook (p. 9 and 13) says the deadline is 9 Nov 23.59 WIB, finalists 19 Nov, final 3–12 Dec, awarding 14 Jan 2027. The "Submit by" line at the top of this file says 8 Nov / 11 Nov / 19 Nov / 22 Nov.
+- Not built, so not claimed anywhere: a Siklon Senyar replay and a "sudah diumumkan" confirmation loop. Both are candidates if there is time after section 10.
