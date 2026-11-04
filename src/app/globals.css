@@ -204,7 +204,10 @@ th { color: var(--muted); }
   .side { max-height: calc(100dvh - 58px); overflow-y: auto; border-left: 1px solid var(--line); }
 }
 
-@media (prefers-reduced-motion: reduce) { * { transition: none !important; animation: none !important; } }
+@media (prefers-reduced-motion: reduce) {
+  * { transition: none !important; animation: none !important; }
+  .skel::after, .skel-line::after, .map-skel::before { display: none; }
+}
 
 .chips { display: flex; flex-wrap: wrap; gap: 8px; }
 .chips a { min-height: 36px; display: inline-flex; align-items: center; padding: 0 12px; border-radius: 999px; border: 1px solid var(--line); text-decoration: none; font-weight: 700; font-size: 0.9rem; }
