@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { MapLoader } from '@/components/MapLoader';
 import { ReplayBar } from '@/components/ReplayBar';
 import { Topbar } from '@/components/Topbar';
-import { badgeHtml, JENJANG_LABEL, jenjangOf, type Jenjang } from '@/lib/jenjang';
+import { badgeHtml, JENJANG_LABEL, jenjangOf, jenjangPresent } from '@/lib/jenjang';
 import { ACTION_LABEL, LEVEL_COLOR, LEVEL_LABEL } from '@/lib/status';
 import { createClient } from '@/lib/supabase/server';
 import { formatWIB, isStale } from '@/lib/time';
@@ -73,7 +73,7 @@ export default async function Home({ searchParams }: { searchParams: Promise<{ p
           </div>
           <p className="small muted">Titik panas adalah area yang terdeteksi satelit lebih panas dari sekitarnya. Bisa kebakaran hutan atau lahan, tetapi bisa juga pabrik, PLTU, atau pembakaran sampah.</p>
           <div className="legend" aria-label="Jenjang sekolah">
-            {(Object.keys(JENJANG_LABEL) as Jenjang[]).map((j) => (
+            {jenjangPresent(rows.map((r) => r.name)).map((j) => (
               <span key={j} className="lv" dangerouslySetInnerHTML={{ __html: badgeHtml(j, 'transparent') + JENJANG_LABEL[j] }} />
             ))}
           </div>

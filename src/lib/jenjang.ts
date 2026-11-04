@@ -23,6 +23,11 @@ export const JENJANG_LABEL: Record<Jenjang, string> = {
   PT: 'Perguruan tinggi',
 };
 
+export function jenjangPresent(names: string[]): Jenjang[] {
+  const have = new Set(names.map(jenjangOf));
+  return (Object.keys(JENJANG_LABEL) as Jenjang[]).filter((j) => have.has(j));
+}
+
 export const JENJANG_COLOR: Record<Jenjang, string> = {
   TK: '#8e24aa',
   SD: '#00838f',

@@ -1,4 +1,4 @@
-import { jenjangOf } from '../../src/lib/jenjang';
+import { jenjangOf, jenjangPresent } from '../../src/lib/jenjang';
 test('jenjangOf reads the level from the school name', () => {
   expect(jenjangOf('SD NEGERI 1 BARANGGAU')).toBe('SD');
   expect(jenjangOf('MIN 2 Palangka Raya')).toBe('SD');
@@ -12,4 +12,8 @@ test('jenjangOf reads the level from the school name', () => {
   expect(jenjangOf('UNIVERSITAS PALANGKA RAYA')).toBe('PT');
   expect(jenjangOf('IAIN PALANGKA RAYA')).toBe('PT');
   expect(jenjangOf('MASJID')).toBe('SD');
+});
+test('jenjangPresent keeps legend order and only what exists', () => {
+  expect(jenjangPresent(['SMAN 1 PALANGKA RAYA', 'SD NEGERI 1 JAAR', 'SDN BARU 01 PAGI'])).toEqual(['SD', 'SMA']);
+  expect(jenjangPresent([])).toEqual([]);
 });
