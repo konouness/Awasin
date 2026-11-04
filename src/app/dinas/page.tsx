@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { Topbar } from '@/components/Topbar';
-import { ACTION_LABEL, HAZARD_LABEL, LEVEL_COLOR } from '@/lib/status';
+import { ACTION_LABEL, HAZARD_LABEL } from '@/lib/status';
 import { createClient, getSessionProfile } from '@/lib/supabase/server';
 import { formatWIB, todayWIB } from '@/lib/time';
 import { MATCH_LABEL, matchReport, type MatchResult } from '@/reports/match';
@@ -15,7 +15,7 @@ export const maxDuration = 60;
 
 type Report = ReportInput & { id: string; school_id: string; students_sick: number; note: string | null; photo_path: string | null; created_at: string; schools: { name: string } };
 
-const MATCH_COLOR: Record<MatchResult, string> = { cocok: LEVEL_COLOR[0], tidak_terdeteksi: LEVEL_COLOR[3], tidak_terkonfirmasi: LEVEL_COLOR[1] };
+const MATCH_LV: Record<MatchResult, Level> = { cocok: 0, tidak_terdeteksi: 3, tidak_terkonfirmasi: 1 };
 
 function observedText(r: Report) {
   if (r.hazard === 'asap') return `Jarak pandang ${r.visibility_m ?? '–'} m${r.smoke_smell ? ', bau asap' : ''}`;
@@ -67,22 +67,22 @@ export default async function DinasPage({ searchParams }: { searchParams: Promis
       <main className="wrap stack enter" style={{ maxWidth: 1100 }}>
         <h1>Dasbor dinas</h1>
         <p className="muted">Hari ini, {today}. Diurutkan dari tindakan paling berat.</p>
-        <div className="scroll-x">
+        <div className="table-box">
           <table>
             <thead>
-              <tr><th>Sekolah</th><th>Rekomendasi</th><th>Laporan hari ini</th><th>Sakit (laporan)</th><th>Sakit (absen)</th><th>Mode daring</th></tr>
+              <tr><th>Sekolah</th><th>Rekomendasi</th><th className="num">Laporan hari ini</th><th className="num">Sakit (laporan)</th><th className="num">Sakit (absen)</th><th>Mode daring</th></tr>
             </thead>
             <tbody>
               {rows.map((r) => {
                 const lv = r.levels ? (Math.max(r.levels.asap, r.levels.banjir, r.levels.angin) as Level) : 0;
                 return (
-                  <tr key={r.school_id}>
+                  <tr key={r.school_id} className={`lvl-${lv}`}>
                     <td><Link href={`/sekolah/${r.npsn}`}>{r.name}</Link><br /><span className="small muted">{r.kabupaten}</span></td>
-                    <td><span className="lv"><span className="dot" style={{ background: LEVEL_COLOR[lv] }} />{ACTION_LABEL[r.action]}</span>{r.hazard && <><br /><span className="small muted">{HAZARD_LABEL[r.hazard]}</span></>}</td>
-                    <td>{r.reports_today}</td>
-                    <td>{r.sick_reported}</td>
-                    <td>{r.sick_checkins}</td>
-                    <td>{r.emergency_active ? 'Aktif' : 'Tidak'}</td>
+                    <td><span className="plate">{ACTION_LABEL[r.action]}</span>{r.hazard && <><br /><span className="small muted">{HAZARD_LABEL[r.hazard]}</span></>}</td>
+                    <td className="num">{r.reports_today}</td>
+                    <td className="num">{r.sick_reported}</td>
+                    <td className="num">{r.sick_checkins}</td>
+                    <td>{r.emergency_active ? <span className="plate stripes">Aktif</span> : 'Tidak'}</td>
                   </tr>
                 );
               })}
@@ -93,7 +93,7 @@ export default async function DinasPage({ searchParams }: { searchParams: Promis
         <SeDraft kabupaten={[...new Set(rows.map((r) => r.kabupaten))].sort((a, b) => a.localeCompare(b))} />
 
         <h2>Laporan lapangan terbaru</h2>
-        <nav className="row small" aria-label="Saring laporan">
+        <nav className="chips" aria-label="Saring laporan">
           <Link href={link(null, onlyMissed)} aria-current={!hazardFilter ? 'true' : undefined}>Semua bencana</Link>
           {HAZARDS.map((h) => (
             <Link key={h} href={link(h, onlyMissed)} aria-current={hazardFilter === h ? 'true' : undefined}>{HAZARD_LABEL[h]}</Link>
@@ -109,7 +109,7 @@ export default async function DinasPage({ searchParams }: { searchParams: Promis
                   <td style={{ width: 120 }}>
                     {r.photoUrl ? (
                       <a href={r.photoUrl} target="_blank" rel="noreferrer">
-                        <img src={r.photoUrl} alt={`Foto laporan ${r.schools.name}`} width={110} style={{ borderRadius: 6, display: 'block' }} />
+                        <img src={r.photoUrl} alt={`Foto laporan ${r.schools.name}`} width={110} className="thumb" />
                       </a>
                     ) : <span className="small muted">Tanpa foto</span>}
                   </td>
@@ -121,7 +121,7 @@ export default async function DinasPage({ searchParams }: { searchParams: Promis
                   <td>
                     Pengamatan level {r.obs}, prediksi {r.pred ?? 'tidak ada'}<br />
                     {r.match ? (
-                      <span className="lv"><span className="dot" style={{ background: MATCH_COLOR[r.match] }} />{MATCH_LABEL[r.match]}</span>
+                      <span className={`plate lvl-${MATCH_LV[r.match]}`}>{MATCH_LABEL[r.match]}</span>
                     ) : <span className="small muted">Belum ada prediksi untuk jam ini</span>}
                   </td>
                 </tr>

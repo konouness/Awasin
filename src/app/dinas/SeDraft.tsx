@@ -7,7 +7,7 @@ export function SeDraft({ kabupaten }: { kabupaten: string[] }) {
   const [text, setText] = useState('');
   const [pending, start] = useTransition();
   return (
-    <section className="stack" aria-label="Draf surat edaran">
+    <section className="stack panel" aria-label="Draf surat edaran">
       <h2>Draf surat edaran</h2>
       <div className="row" style={{ alignItems: 'end' }}>
         <div className="field">
@@ -16,14 +16,19 @@ export function SeDraft({ kabupaten }: { kabupaten: string[] }) {
             {kabupaten.map((k) => <option key={k}>{k}</option>)}
           </select>
         </div>
-        <button className="btn" type="button" disabled={pending || !kab} onClick={() => start(async () => setText((await draftSE(kab).catch(() => ({ text: 'Draf AI tidak tersedia, coba lagi nanti.' }))).text))}>
+        <button className="btn" type="button" aria-busy={pending} disabled={pending || !kab} onClick={() => start(async () => setText((await draftSE(kab).catch(() => ({ text: 'Draf AI tidak tersedia, coba lagi nanti.' }))).text))}>
           Buat draf surat edaran
         </button>
       </div>
       <p className="small muted">Hanya angka total yang dikirim ke AI, tanpa nama siswa atau isi laporan.</p>
       {pending && <p className="muted" role="status">Menyusun draf…</p>}
+      {pending && (
+        <div className="skel-letter" aria-hidden="true">
+          {[100, 92, 96, 60, 88, 40].map((w, i) => <div key={i} className="skel-line" style={{ width: `${w}%` }} />)}
+        </div>
+      )}
       {text && !pending && (
-        <div className="stack">
+        <div className="stack fade-in">
           <h3>Draf AI, periksa sebelum ditandatangani</h3>
           <textarea readOnly rows={14} value={text} aria-label="Draf surat edaran" />
         </div>
