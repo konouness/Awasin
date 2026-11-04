@@ -48,7 +48,7 @@ export function CheckinForm({ npsn }: { npsn: string }) {
         </div>
       </fieldset>
       {status === 'sakit' && (
-        <fieldset className="field">
+        <fieldset className="field reveal">
           <legend>Gejala</legend>
           <div className="choice">
             {SYMPTOMS.map(([v, l]) => (
@@ -57,8 +57,8 @@ export function CheckinForm({ npsn }: { npsn: string }) {
           </div>
         </fieldset>
       )}
-      {msg && <p className={msg.ok ? '' : 'error'} role="status">{msg.text}</p>}
-      <button className="btn" type="submit" disabled={busy}>{busy ? 'Mengirim…' : 'Kirim absen'}</button>
+      {msg && <p className={msg.ok ? 'stamp' : 'error'} role="status">{msg.text}</p>}
+      <button className="btn" type="submit" disabled={busy} aria-busy={busy}>{busy ? 'Mengirim…' : 'Kirim absen'}</button>
     </form>
   );
 }

@@ -176,11 +176,22 @@ fieldset { border: 0; padding: 0; margin: 0; }
 
 .choice { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; }
 .choice button, .choice label {
-  min-height: 56px; border-radius: var(--radius-s); border: 2px solid var(--line); background: var(--surface);
+  min-height: 56px; border-radius: var(--radius-s); border: 2px solid var(--ink); background: var(--surface);
   color: var(--ink); font: inherit; font-weight: 700; padding: 10px 12px; text-align: left; cursor: pointer;
   display: flex; align-items: center; gap: 10px;
+  transition: transform 100ms var(--ease);
 }
-.choice [aria-pressed='true'], .choice label:has(input:checked) { border-color: var(--ink); box-shadow: inset 0 0 0 1px var(--ink); }
+.choice [aria-pressed='true'], .choice label:has(input:checked) { background: var(--ink); color: var(--paper); }
+.choice button:active, .choice label:active { transform: scale(0.98); }
+.choice input[type='checkbox'], .choice input[type='radio'] { accent-color: var(--ink); width: 20px; height: 20px; flex: none; margin: 0; }
+.choice label:has(input:checked) input { accent-color: var(--paper); }
+
+.role-card { width: 100%; min-height: 72px; justify-content: flex-start; text-align: left; position: relative; padding-right: 48px; }
+.role-card::after { content: '\2192'; position: absolute; right: 18px; font-size: 1.4rem; }
+details { border: 2px solid var(--ink); border-radius: var(--radius-s); background: var(--surface); }
+summary { min-height: 44px; padding: 10px 14px; display: flex; align-items: center; cursor: pointer; font-weight: 700; }
+details[open] > summary { border-bottom: 2px solid var(--ink); }
+details > :not(summary) { margin: 14px; }
 
 table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
 th, td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }

@@ -66,7 +66,7 @@ export function ReportForm({ schoolId, reporterId }: { schoolId: string; reporte
       </fieldset>
 
       {hazard === 'asap' && (
-        <>
+        <div className="stack reveal">
           <div className="field">
             <label htmlFor="visibility_m">Jarak pandang (meter)</label>
             <input id="visibility_m" name="visibility_m" type="number" min={0} max={20000} inputMode="numeric" placeholder="mis. 300" />
@@ -74,16 +74,16 @@ export function ReportForm({ schoolId, reporterId }: { schoolId: string; reporte
           <label className="row" style={{ alignItems: 'center' }}>
             <input type="checkbox" name="smoke_smell" /> Tercium bau asap
           </label>
-        </>
+        </div>
       )}
       {hazard === 'banjir' && (
-        <div className="field">
+        <div className="field reveal">
           <label htmlFor="water_depth_cm">Tinggi genangan di sekolah (cm)</label>
           <input id="water_depth_cm" name="water_depth_cm" type="number" min={0} max={500} inputMode="numeric" placeholder="mis. 20" />
         </div>
       )}
       {hazard === 'angin' && (
-        <fieldset className="field">
+        <fieldset className="field reveal">
           <legend>Angin yang terasa</legend>
           <div className="choice">
             <label><input type="radio" name="wind_felt" value="tidak" defaultChecked /> Biasa</label>
@@ -105,8 +105,8 @@ export function ReportForm({ schoolId, reporterId }: { schoolId: string; reporte
         <label htmlFor="photo">Foto (opsional)</label>
         <input id="photo" name="photo" type="file" accept="image/*" capture="environment" />
       </div>
-      {msg && <p className={msg.ok ? '' : 'error'} role="status">{msg.text}</p>}
-      <button className="btn" type="submit" disabled={busy}>{busy ? 'Mengirim…' : 'Kirim laporan'}</button>
+      {msg && <p className={msg.ok ? 'stamp' : 'error'} role="status">{msg.text}</p>}
+      <button className="btn" type="submit" disabled={busy} aria-busy={busy}>{busy ? 'Mengirim…' : 'Kirim laporan'}</button>
     </form>
   );
 }

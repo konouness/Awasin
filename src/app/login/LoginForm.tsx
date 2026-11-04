@@ -40,7 +40,7 @@ export function LoginForm() {
         <input id="password" name="password" type="password" autoComplete="current-password" required />
       </div>
       {error && <p className="error" role="alert">{error}</p>}
-      <button className="btn" type="submit" disabled={busy}>{busy ? 'Memeriksa…' : 'Masuk'}</button>
+      <button className="btn" type="submit" disabled={busy} aria-busy={busy}>{busy ? 'Memeriksa…' : 'Masuk'}</button>
     </form>
   );
 }
