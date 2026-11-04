@@ -4,7 +4,7 @@ export default function Loading() {
   return (
     <>
       <TopbarShell />
-      <main className="wrap stack" role="status">
+      <main className="wrap stack">
         <Bone h={40} w="70%" />
         <div className="chips" aria-hidden="true">
           <Bone h={44} w={90} />
@@ -17,7 +17,7 @@ export default function Loading() {
             <Bone h={48} />
           </div>
         ))}
-        <span className="sr-only">Memuat…</span>
+        <span className="sr-only" role="status">Memuat…</span>
       </main>
     </>
   );

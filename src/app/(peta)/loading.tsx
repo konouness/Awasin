@@ -2,8 +2,8 @@ import { Bone, TopbarShell } from '@/components/Skeleton';
 
 export default function Loading() {
   return (
-    <div className="map-page" role="status">
-      <span className="sr-only">Memuat…</span>
+    <div className="map-page">
+      <span className="sr-only" role="status">Memuat…</span>
       <TopbarShell />
       <div className="map-layout">
         <div className="map-box"><div className="skel map-skel" aria-hidden="true" /></div>
@@ -15,10 +15,10 @@ export default function Loading() {
           </div>
           <Bone h={40} w="70%" />
           <div className="skel-tiles">
-            <Bone h={64} />
-            <Bone h={64} />
-            <Bone h={64} />
-            <Bone h={64} />
+            <Bone h={88} />
+            <Bone h={88} />
+            <Bone h={88} />
+            <Bone h={88} />
           </div>
           {Array.from({ length: 8 }, (_, i) => <Bone key={i} h={48} />)}
         </aside>
